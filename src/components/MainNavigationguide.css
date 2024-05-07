@@ -1,0 +1,359 @@
+:root {
+  --text-md-regular-font-family: "Inter", Helvetica;
+  --text-md-regular-font-weight: 400;
+  --text-md-regular-font-size: 16px;
+  --text-md-regular-letter-spacing: 0px;
+  --text-md-regular-line-height: 24px;
+  --text-md-regular-font-style: normal;
+  --text-md-semibold-font-family: "Inter", Helvetica;
+  --text-md-semibold-font-weight: 600;
+  --text-md-semibold-font-size: 16px;
+  --text-md-semibold-letter-spacing: 0px;
+  --text-md-semibold-line-height: 24px;
+  --text-md-semibold-font-style: normal;
+  --text-sm-semibold-font-family: "Inter", Helvetica;
+  --text-sm-semibold-font-weight: 600;
+  --text-sm-semibold-font-size: 14px;
+  --text-sm-semibold-letter-spacing: 0px;
+  --text-sm-semibold-line-height: 20px;
+  --text-sm-semibold-font-style: normal;
+  --text-sm-regular-font-family: "Inter", Helvetica;
+  --text-sm-regular-font-weight: 400;
+  --text-sm-regular-font-size: 14px;
+  --text-sm-regular-letter-spacing: 0px;
+  --text-sm-regular-line-height: 20px;
+  --text-sm-regular-font-style: normal;
+  --text-xs-medium-font-family: "Inter", Helvetica;
+  --text-xs-medium-font-weight: 500;
+  --text-xs-medium-font-size: 12px;
+  --text-xs-medium-letter-spacing: 0px;
+  --text-xs-medium-line-height: 18px;
+  --text-xs-medium-font-style: normal;
+  --text-sm-medium-font-family: "Inter", Helvetica;
+  --text-sm-medium-font-weight: 500;
+  --text-sm-medium-font-size: 14px;
+  --text-sm-medium-letter-spacing: 0px;
+  --text-sm-medium-line-height: 20px;
+  --text-sm-medium-font-style: normal;
+  --text-md-medium-font-family: "Inter", Helvetica;
+  --text-md-medium-font-weight: 500;
+  --text-md-medium-font-size: 16px;
+  --text-md-medium-letter-spacing: 0px;
+  --text-md-medium-line-height: 24px;
+  --text-md-medium-font-style: normal;
+  --shadows-shadow-xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  --focus-rings-ring-brand-shadow-xs: 0px 0px 0px 4px rgba(158, 119, 237, 0.24),
+    0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  --shadows-shadow-lg: 0px 4px 6px -2px rgba(16, 24, 40, 0.03),
+    0px 12px 16px -4px rgba(16, 24, 40, 0.08);
+  --1-color-modes-colors-background-bg-primary: var(
+    --primitives-colors-base-white
+  );
+  --1-color-modes-colors-border-border-secondary: var(
+    --primitives-colors-gray-light-mode-200
+  );
+  --1-color-modes-colors-text-text-placeholder: var(
+    --primitives-colors-gray-light-mode-500
+  );
+  --1-color-modes-colors-text-text-secondary-700: var(
+    --primitives-colors-gray-light-mode-700
+  );
+  --1-color-modes-colors-text-text-tertiary-600: var(
+    --primitives-colors-gray-light-mode-600
+  );
+  --1-color-modes-component-colors-components-avatars-avatar-contrast-border: rgba(
+    0,
+    0,
+    0,
+    0.08
+  );
+  --1-color-modes-colors-border-border-primary: var(
+    --primitives-colors-gray-light-mode-300
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-color-button-tertiary-color-fg: var(
+    --primitives-colors-brand-700
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-fg: var(
+    --primitives-colors-gray-light-mode-600
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-color-button-tertiary-color-fg-hover: var(
+    --primitives-colors-brand-800
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-fg-hover: var(
+    --primitives-colors-gray-light-mode-700
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-bg-hover: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-colors-text-text-primary-900: var(
+    --primitives-colors-gray-light-mode-900
+  );
+  --1-color-modes-colors-background-bg-quaternary: var(
+    --primitives-colors-gray-light-mode-200
+  );
+  --1-color-modes-colors-foreground-fg-brand-primary-alt: var(
+    --primitives-colors-brand-600
+  );
+  --1-color-modes-colors-background-bg-secondary: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-colors-foreground-fg-brand-primary-600: var(
+    --primitives-colors-brand-600
+  );
+  --1-color-modes-colors-background-bg-primary-hover: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-700: var(
+    --primitives-colors-gray-light-mode-700
+  );
+  --1-color-modes-colors-text-text-secondary-hover: var(
+    --primitives-colors-gray-light-mode-800
+  );
+  --1-color-modes-colors-foreground-fg-success-secondary: var(
+    --primitives-colors-success-500
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-50: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-200: var(
+    --primitives-colors-gray-light-mode-200
+  );
+  --1-color-modes-colors-background-bg-active: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-colors-background-bg-secondary-hover: var(
+    --primitives-colors-gray-light-mode-100
+  );
+  --1-color-modes-colors-border-border-brand: var(
+    --primitives-colors-brand-300
+  );
+  --primitives-colors-base-white: rgba(255, 255, 255, 1);
+  --primitives-colors-gray-light-mode-200: rgba(234, 236, 240, 1);
+  --primitives-colors-gray-dark-mode-950: rgba(12, 17, 29, 1);
+  --primitives-colors-gray-light-mode-500: rgba(102, 112, 133, 1);
+  --primitives-colors-gray-light-mode-700: rgba(52, 64, 84, 1);
+  --primitives-colors-gray-light-mode-600: rgba(71, 84, 103, 1);
+  --primitives-spacing-2-8px: 8px;
+  --primitives-colors-gray-dark-mode-800: rgba(31, 36, 47, 1);
+  --primitives-spacing-3-12px: 12px;
+  --primitives-colors-gray-dark-mode-300: rgba(206, 207, 210, 1);
+  --primitives-colors-gray-dark-mode-500: rgba(133, 136, 142, 1);
+  --primitives-colors-gray-dark-mode-400: rgba(148, 150, 156, 1);
+  --primitives-colors-gray-light-mode-300: rgba(208, 213, 221, 1);
+  --primitives-spacing-1-5-6px: 6px;
+  --primitives-colors-gray-dark-mode-700: rgba(51, 55, 65, 1);
+  --primitives-colors-brand-700: rgba(105, 65, 198, 1);
+  --primitives-colors-brand-800: rgba(83, 56, 158, 1);
+  --primitives-colors-gray-dark-mode-200: rgba(236, 236, 237, 1);
+  --primitives-colors-gray-dark-mode-100: rgba(240, 241, 241, 1);
+  --primitives-colors-gray-light-mode-50: rgba(249, 250, 251, 1);
+  --primitives-colors-gray-light-mode-900: rgba(16, 24, 40, 1);
+  --primitives-colors-brand-600: rgba(127, 86, 217, 1);
+  --primitives-spacing-1-4px: 4px;
+  --primitives-colors-gray-dark-mode-50: rgba(245, 245, 246, 1);
+  --primitives-spacing-6-24px: 24px;
+  --primitives-spacing-4-16px: 16px;
+  --primitives-spacing-5-20px: 20px;
+  --primitives-colors-gray-dark-mode-900: rgba(22, 27, 38, 1);
+  --primitives-colors-brand-500: rgba(158, 119, 237, 1);
+  --primitives-colors-gray-light-mode-800: rgba(24, 34, 48, 1);
+  --primitives-colors-success-500: rgba(23, 178, 106, 1);
+  --primitives-spacing-0-5-2px: 2px;
+  --primitives-colors-success-400: rgba(71, 205, 137, 1);
+  --primitives-colors-gray-light-mode-100: rgba(242, 244, 247, 1);
+  --primitives-spacing-12-48px: 48px;
+  --primitives-colors-brand-300: rgba(214, 187, 251, 1);
+  --primitives-colors-brand-400: rgba(182, 146, 246, 1);
+  --2-radius-radius-full: 9999px;
+  --2-radius-radius-md: 8px;
+  --2-radius-radius-sm: 6px;
+  --3-spacing-spacing-md: var(--primitives-spacing-2-8px);
+  --3-spacing-spacing-lg: var(--primitives-spacing-3-12px);
+  --3-spacing-spacing-sm: var(--primitives-spacing-1-5-6px);
+  --3-spacing-spacing-xs: var(--primitives-spacing-1-4px);
+  --3-spacing-spacing-3xl: var(--primitives-spacing-6-24px);
+  --3-spacing-spacing-xl: var(--primitives-spacing-4-16px);
+  --3-spacing-spacing-2xl: var(--primitives-spacing-5-20px);
+  --3-spacing-spacing-xxs: var(--primitives-spacing-0-5-2px);
+  --3-spacing-spacing-6xl: var(--primitives-spacing-12-48px);
+}
+
+/*
+  
+  To enable a theme in your HTML, simply add one of the following data attributes to an HTML element, like so:
+  
+  <body data-1-color-modes-mode="light-mode">
+      <!-- the rest of your content -->
+  </body>
+  
+  You can apply the theme on any DOM node, not just the `body`
+  
+  */
+
+[data-1-color-modes-mode="light-mode"] {
+  --1-color-modes-colors-background-bg-primary: var(
+    --primitives-colors-base-white
+  );
+  --1-color-modes-colors-border-border-secondary: var(
+    --primitives-colors-gray-light-mode-200
+  );
+  --1-color-modes-colors-text-text-placeholder: var(
+    --primitives-colors-gray-light-mode-500
+  );
+  --1-color-modes-colors-text-text-secondary-700: var(
+    --primitives-colors-gray-light-mode-700
+  );
+  --1-color-modes-colors-text-text-tertiary-600: var(
+    --primitives-colors-gray-light-mode-600
+  );
+  --1-color-modes-component-colors-components-avatars-avatar-contrast-border: rgba(
+    0,
+    0,
+    0,
+    0.08
+  );
+  --1-color-modes-colors-border-border-primary: var(
+    --primitives-colors-gray-light-mode-300
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-color-button-tertiary-color-fg: var(
+    --primitives-colors-brand-700
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-fg: var(
+    --primitives-colors-gray-light-mode-600
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-color-button-tertiary-color-fg-hover: var(
+    --primitives-colors-brand-800
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-fg-hover: var(
+    --primitives-colors-gray-light-mode-700
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-bg-hover: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-colors-text-text-primary-900: var(
+    --primitives-colors-gray-light-mode-900
+  );
+  --1-color-modes-colors-background-bg-quaternary: var(
+    --primitives-colors-gray-light-mode-200
+  );
+  --1-color-modes-colors-foreground-fg-brand-primary-alt: var(
+    --primitives-colors-brand-600
+  );
+  --1-color-modes-colors-background-bg-secondary: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-colors-foreground-fg-brand-primary-600: var(
+    --primitives-colors-brand-600
+  );
+  --1-color-modes-colors-background-bg-primary-hover: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-700: var(
+    --primitives-colors-gray-light-mode-700
+  );
+  --1-color-modes-colors-text-text-secondary-hover: var(
+    --primitives-colors-gray-light-mode-800
+  );
+  --1-color-modes-colors-foreground-fg-success-secondary: var(
+    --primitives-colors-success-500
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-50: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-200: var(
+    --primitives-colors-gray-light-mode-200
+  );
+  --1-color-modes-colors-background-bg-active: var(
+    --primitives-colors-gray-light-mode-50
+  );
+  --1-color-modes-colors-background-bg-secondary-hover: var(
+    --primitives-colors-gray-light-mode-100
+  );
+  --1-color-modes-colors-border-border-brand: var(
+    --primitives-colors-brand-300
+  );
+}
+
+[data-1-color-modes-mode="dark-mode"] {
+  --1-color-modes-colors-background-bg-primary: var(
+    --primitives-colors-gray-dark-mode-950
+  );
+  --1-color-modes-colors-border-border-secondary: var(
+    --primitives-colors-gray-dark-mode-800
+  );
+  --1-color-modes-colors-text-text-placeholder: var(
+    --primitives-colors-gray-dark-mode-500
+  );
+  --1-color-modes-colors-text-text-secondary-700: var(
+    --primitives-colors-gray-dark-mode-300
+  );
+  --1-color-modes-colors-text-text-tertiary-600: var(
+    --primitives-colors-gray-dark-mode-400
+  );
+  --1-color-modes-component-colors-components-avatars-avatar-contrast-border: rgba(
+    255,
+    255,
+    255,
+    0.12
+  );
+  --1-color-modes-colors-border-border-primary: var(
+    --primitives-colors-gray-dark-mode-700
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-color-button-tertiary-color-fg: var(
+    --primitives-colors-gray-dark-mode-300
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-fg: var(
+    --primitives-colors-gray-dark-mode-400
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-color-button-tertiary-color-fg-hover: var(
+    --primitives-colors-gray-dark-mode-100
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-fg-hover: var(
+    --primitives-colors-gray-dark-mode-200
+  );
+  --1-color-modes-component-colors-components-buttons-tertiary-button-tertiary-bg-hover: var(
+    --primitives-colors-gray-dark-mode-800
+  );
+  --1-color-modes-colors-text-text-primary-900: var(
+    --primitives-colors-gray-dark-mode-50
+  );
+  --1-color-modes-colors-background-bg-quaternary: var(
+    --primitives-colors-gray-dark-mode-700
+  );
+  --1-color-modes-colors-foreground-fg-brand-primary-alt: var(
+    --primitives-colors-gray-dark-mode-300
+  );
+  --1-color-modes-colors-background-bg-secondary: var(
+    --primitives-colors-gray-dark-mode-900
+  );
+  --1-color-modes-colors-foreground-fg-brand-primary-600: var(
+    --primitives-colors-brand-500
+  );
+  --1-color-modes-colors-background-bg-primary-hover: var(
+    --primitives-colors-gray-dark-mode-800
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-700: var(
+    --primitives-colors-gray-dark-mode-300
+  );
+  --1-color-modes-colors-text-text-secondary-hover: var(
+    --primitives-colors-gray-dark-mode-200
+  );
+  --1-color-modes-colors-foreground-fg-success-secondary: var(
+    --primitives-colors-success-400
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-50: var(
+    --primitives-colors-gray-dark-mode-900
+  );
+  --1-color-modes-component-colors-utility-gray-utility-gray-200: var(
+    --primitives-colors-gray-dark-mode-700
+  );
+  --1-color-modes-colors-background-bg-active: var(
+    --primitives-colors-gray-dark-mode-800
+  );
+  --1-color-modes-colors-background-bg-secondary-hover: var(
+    --primitives-colors-gray-dark-mode-800
+  );
+  --1-color-modes-colors-border-border-brand: var(
+    --primitives-colors-brand-400
+  );
+}

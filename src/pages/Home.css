@@ -1,0 +1,159 @@
+.image-container {
+  width: 100%;
+  position: relative;
+}
+
+.image-container img {
+  min-width: 100%;
+  max-width: 100%;
+  width: auto;
+  height: 250px;
+}
+
+.circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #cccccc57;
+  position: absolute;
+  top: 200px;
+  left: 25px;
+}
+
+.circle img {
+  width: 100%; /* Ensure image fills the circle */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.button-primary-sw {
+  width: 156.28px;
+  height: 41.92px;
+
+  padding-top: 10.46px;
+  padding-bottom: 10.46px;
+  background: #7f56d9;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.05px #7f56d9 solid;
+
+  gap: 4px;
+
+  padding-left: 2px;
+  padding-right: 2px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: white;
+  font-size: 14px;
+  /* font-family: Inter; */
+  font-weight: 600;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.button-secondary-sw {
+  width: 156.28px;
+  height: 41.92px;
+
+  padding-top: 10.46px;
+  padding-bottom: 10.46px;
+  background: #ffffff;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.05px #667085 solid;
+
+  gap: 4px;
+
+  padding-left: 2px;
+  padding-right: 2px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: #667085;
+  font-size: 14px;
+  /* font-family: Inter; */
+  font-weight: 600;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.button-placement {
+  display: flex;
+  gap: 25px;
+  justify-content: right;
+}
+
+.Cta {
+  padding: 10px;
+  background: white;
+  box-shadow: 0px 1.0458587408065796px 2.091717481613159px
+    rgba(16, 24, 40, 0.05);
+  border-radius: 12.55px;
+  border: 1.05px #eaecf0 solid;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12.55px;
+  display: inline-flex;
+
+  margin-top: 50px;
+}
+
+.FeaturedIcon {
+  width: 50.2px;
+  height: 50.2px;
+  position: relative;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 10.45px;
+  border: 1.05px #eaecf0 solid;
+}
+
+.Edit04 {
+  width: 25.1px;
+  height: 25.1px;
+  left: 12.55px;
+  top: 12.55px;
+  position: absolute;
+}
+
+.Icon {
+  width: 18.83px;
+  height: 17.91px;
+  left: 3.14px;
+  top: 3.01px;
+  position: absolute;
+  border: 2.09px #344054 solid;
+}
+
+.TextAndSupportingText {
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2.09px;
+  display: inline-flex;
+}
+
+.Text {
+  color: #344054;
+  font-size: 16px;
+
+  font-weight: 600;
+  line-height: 25.1px;
+  word-wrap: break-word;
+}
+
+.SupportingText {
+  align-self: stretch;
+  color: #475467;
+  font-size: 14px;
+
+  font-weight: 400;
+  line-height: 20.92px;
+  word-wrap: break-word;
+}
