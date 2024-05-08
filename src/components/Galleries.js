@@ -17,19 +17,17 @@ function ImageGallery() {
   }, []);
 
   return (
-    <div className="container m-5">
-      <div className="row">
-        {imageData.map((image, index) => (
-          <div className="col-md-4 mb-3" key={index}>
-            <img
-              src={image.url}
-              alt={image.alt || "Image"}
-              className="img-fluid"
-              style={{ maxHeight: "400px" }} // Set a maximum height for responsive layout
-            />
-          </div>
-        ))}
-      </div>
+    <div className="row p-5">
+      {imageData.map((image, index) => (
+        <div className="col-md-4 mb-3" key={index}>
+          <img
+            src={image.url}
+            alt={image.alt || "Image"}
+            className="img-fluid"
+            style={{ maxHeight: "400px" }} // Set a maximum height for responsive layout
+          />
+        </div>
+      ))}
     </div>
   );
 }

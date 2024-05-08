@@ -96,12 +96,12 @@
     rgba(16, 24, 40, 0.05);
   border-radius: 12.55px;
   border: 1.05px #eaecf0 solid;
-  justify-content: flex-start;
-  align-items: flex-start;
+
   gap: 12.55px;
   display: inline-flex;
 
-  margin-top: 50px;
+  margin-top: 3rem;
+  margin-left: 3rem;
 }
 
 .FeaturedIcon {

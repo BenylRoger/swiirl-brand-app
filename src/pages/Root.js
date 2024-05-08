@@ -7,16 +7,16 @@ import CommissionIcon from "../icons/Commissions";
 import GalleryIcon from "../icons/Galleries";
 import SupportIcon from "../icons/Support";
 import SettingIcon from "../icons/Settings";
+import LogoutIcon from "../icons/Logout";
 
 import "@fortawesome/fontawesome-free/css/all.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./Root.css";
-import "../components/MainNavigation.css";
 
 function RootLayout({ children }) {
-  const [isSidebarClosed, setIsSidebarClosed] = useState(false);
+  const [isSidebarClosed, setIsSidebarClosed] = useState(true);
 
   const toggleSidebar = () => {
     console.log("click event triggered");
@@ -38,46 +38,42 @@ function RootLayout({ children }) {
         <div className="col-sm-0 col-md-0 col-lg-0">
           <nav className={`sidebar ${isSidebarClosed ? "close" : ""}`}>
             <header className="navbar">
-              <div className="container">
-                <img
-                  alt="swiirl-logo"
-                  className="swiirl-logo"
-                  src="/swiirl-logo.png"
-                />
-              </div>
+              <img
+                alt="swiirl-logo"
+                className="swiirl-logo"
+                src="/swiirl-logo.png"
+              />
             </header>
 
             <div className="menu-bar">
               <div className="menu">
-                <ul className="menu-links">
-                  <li className="nav-link">
-                    <Link to="/home">
-                      <HomeIcon />
-                      <span className="text nav-text">Home</span>
-                    </Link>
-                  </li>
+                <li className="nav-link">
+                  <Link to="/home">
+                    <HomeIcon />
+                    <span className="text nav-text">Home</span>
+                  </Link>
+                </li>
 
-                  <li className="nav-link">
-                    <Link to="/images">
-                      <GalleryIcon />
-                      <span className="text nav-text">Galleries</span>
-                    </Link>
-                  </li>
+                <li className="nav-link">
+                  <Link to="/galleries">
+                    <GalleryIcon />
+                    <span className="text nav-text">Galleries</span>
+                  </Link>
+                </li>
 
-                  <li className="nav-link">
-                    <Link to="/commissions">
-                      <CommissionIcon />
-                      <span className="text nav-text">Commissions</span>
-                    </Link>
-                  </li>
+                <li className="nav-link">
+                  <Link to="/commissions">
+                    <CommissionIcon />
+                    <span className="text nav-text">Commissions</span>
+                  </Link>
+                </li>
 
-                  <li className="nav-link">
-                    <Link to="/analytics">
-                      <AnalyticIcon />
-                      <span className="text nav-text">Analytics</span>
-                    </Link>
-                  </li>
-                </ul>
+                <li className="nav-link">
+                  <Link to="/analytics">
+                    <AnalyticIcon />
+                    <span className="text nav-text">Analytics</span>
+                  </Link>
+                </li>
               </div>
 
               <div className="bottom-content">
@@ -101,7 +97,7 @@ function RootLayout({ children }) {
                 </li>
                 <li>
                   <Link to="/">
-                    <i className="bx bx-log-out icon"></i>
+                    <LogoutIcon />
                     <span className="text nav-text">Logout</span>
                   </Link>
                 </li>
