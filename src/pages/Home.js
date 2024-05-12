@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
 import "./Home.css"; // Import CSS file
 import EditIcon from "../icons/Edit";
 import { Link } from "react-router-dom";
 import ImageGallery from "../components/Galleries";
+import CommissionListing from "../components/CommissionListing";
 
 const Home = () => {
+  const [commissionData, setCommissionData] = useState([]);
+
+  useEffect(() => {
+    // Fetch commission data from JSON file or API endpoint
+    const fetchCommissionData = async () => {
+      try {
+        const campaignData = require("../data/campaigns.json");
+
+        setCommissionData(campaignData);
+      } catch (error) {
+        console.error("Error fetching commission data:", error);
+      }
+    };
+
+    fetchCommissionData();
+  }, []);
+
+  // Check if there are commissions
+  const hasCommission = commissionData && commissionData.length > 0;
   return (
     <div className="content-area">
       <div className="row">
@@ -25,36 +46,43 @@ const Home = () => {
           <div className="row align-items-center">
             <div className="col-lg-12">
               <div className="button-placement">
-                <Link to="/images">
-                  <button className="btn btn-secondary">View Galleries</button>
+                <Link to="/galleries" style={{ textDecoration: "none" }}>
+                  <button className="button-secondary-sw">
+                    View Galleries
+                  </button>
                 </Link>
-                <Link to="/commissions">
-                  <button className="btn btn-primary">New Commission</button>
+                <Link to="/commissions/new" style={{ textDecoration: "none" }}>
+                  <button className="button-primary-sw">New Commission</button>
                 </Link>
               </div>
-              <div className="Cta">
-                <div className="FeaturedIcon">
-                  <div className="Edit04">
-                    {/* Assuming EditIcon is imported */}
-                    <EditIcon />
+              {hasCommission ? (
+                ""
+              ) : (
+                <div className="Cta">
+                  <div className="FeaturedIcon">
+                    <div className="Edit04">
+                      {/* Assuming EditIcon is imported */}
+                      <EditIcon />
+                    </div>
+                  </div>
+                  <div className="TextAndSupportingText">
+                    <div className="Text">
+                      You do not have any art commissioned yet.
+                    </div>
+                    <div className="SupportingText">
+                      Dive into the editor and start creating
+                    </div>
                   </div>
                 </div>
-                <div className="TextAndSupportingText">
-                  <div className="Text">
-                    You do not have any art commissioned yet.
-                  </div>
-                  <div className="SupportingText">
-                    Dive into the editor and start creating
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
 
         {/* Render ImageGallery component */}
         <div className="col-lg-12 mt-3">
-          <ImageGallery />
+          {/* Conditionally render ImageGallery or CommissionListing */}
+          {hasCommission ? <CommissionListing /> : <ImageGallery />}
         </div>
       </div>
     </div>

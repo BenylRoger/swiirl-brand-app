@@ -18,38 +18,6 @@ function ImageGallery() {
   }, []);
 
   return (
-    // <div className="row p-5">
-    //   {imageData.map((image, index) => (
-    //     <div className="col-md-4 mb-3" key={index}>
-    //       <img
-    //         src={image.url}
-    //         alt={image.alt || "Image"}
-    //         className="img-fluid"
-    //         style={{ maxHeight: "400px" }} // Set a maximum height for responsive layout
-    //       />
-    //     </div>
-    //   ))}
-    // </div>
-
-    // <div
-    //   className="image-container p-5"
-    //   style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
-    // >
-    //   {imageData.map((image, index) => (
-    //     <div
-    //       key={index}
-    //       style={{ flex: "0 0 auto", maxWidth: "33%", marginBottom: "1rem" }}
-    //     >
-    //       <img
-    //         src={image.url}
-    //         alt={image.alt || "Image"}
-    //         className="img-fluid"
-    //         style={{ width: "100%", height: "auto", maxHeight: "400px" }}
-    //       />
-    //     </div>
-    //   ))}
-    // </div>
-
     <div
       className="image-container p-5"
       style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}

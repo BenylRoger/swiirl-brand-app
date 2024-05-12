@@ -6,9 +6,10 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
-import Images from "./pages/Images";
+import CommissionPage from "./pages/CommissionPage";
 import RootLayout from "./pages/Root";
 import Login from "./pages/Login";
+//import CommissionListing from "./pages/CommissionListing";
 
 const router = createBrowserRouter([
   {
@@ -29,12 +30,32 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      // {
+      //   path: "/commissions",
+      //   element: (
+      //     <PrivateRoute>
+      //       <RootLayout>
+      //         <CommissionListing />
+      //       </RootLayout>
+      //     </PrivateRoute>
+      //   ),
+      // },
       {
         path: "/galleries",
         element: (
           <PrivateRoute>
             <RootLayout>
-              <Images />
+              <Home />
+            </RootLayout>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/commissions/new",
+        element: (
+          <PrivateRoute>
+            <RootLayout>
+              <CommissionPage />
             </RootLayout>
           </PrivateRoute>
         ),

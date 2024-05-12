@@ -35,7 +35,7 @@
   /*  background-color: rgba(0, 0, 0, 0.3); Add opacity with black color */
   opacity: 0; /* Initially hide the overlay */
   transition: opacity 0.3s ease-in-out;
-  z-index: 1; /* Ensure overlay sits above other elements */
+  /* z-index: 1; /* Ensure overlay sits above other elements */
 }
 
 .overlay.active {
