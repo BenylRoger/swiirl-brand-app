@@ -1,0 +1,70 @@
+.intro-commission {
+  display: flex;
+  align-items: center;
+  margin-left: 10px; /* Add small space to the left */
+}
+
+.new-symbol {
+  display: inline-flex;
+  padding: 2px 10px; /* Using fixed padding values */
+  align-items: center;
+
+  border-radius: 9999px; /* Using a fixed border radius */
+  border: 1px solid #abefc6; /* Using a fixed border color */
+  background: #ecfdf3; /* Using a fixed background color */
+
+  color: #067647; /* Using a fixed text color */
+  text-align: center;
+
+  /* Text size and style */
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px; /* Using a fixed line-height value */
+  margin-right: 10px;
+}
+
+.new-commission-text {
+  color: #000; /* Using a fixed text color */
+  font-family: Inter;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1.2; /* Using a fixed line-height value */
+}
+
+.commission-collage {
+  display: flex; /* Allow stacking columns side-by-side */
+  width: 100%; /* Adjust width as needed */
+  min-width: 600px;
+  max-width: 650pxpx;
+}
+
+.image-container {
+  display: flex; /* Arrange columns horizontally */
+}
+
+.image-column {
+  padding: 2px; /* Add spacing around images */
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+.image-column.first {
+  width: 50%; /* First column takes two-thirds of the space */
+  height: 100%; /* Full height of the container */
+}
+
+.image-column.second {
+  width: 50%; /* Second column takes one-third of the space */
+  display: flex; /* Arrange images within the second column */
+  flex-direction: column; /* Stack images vertically */
+  gap: 5px;
+}
+
+.image-column.second img {
+  flex: 1; /* Both images in second column share available height equally */
+}
+
+.image-column img {
+  width: 100%; /* Images fill the container width */
+  object-fit: cover; /* Crop images to fit */
+}
