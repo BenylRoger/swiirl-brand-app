@@ -25,7 +25,12 @@ function ImageGallery() {
       {imageData.map((image, index) => (
         <div
           key={index}
-          style={{ flex: "0 0 auto", maxWidth: "33%", marginBottom: "1rem" }}
+          style={{
+            flex: "0 0 auto",
+            maxWidth: "33%",
+            marginBottom: "1rem",
+            minWidth: "25%",
+          }}
         >
           <img
             src={image.url}

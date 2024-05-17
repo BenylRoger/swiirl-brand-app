@@ -4,7 +4,7 @@ import "./Home.css"; // Import CSS file
 import EditIcon from "../icons/Edit";
 import { Link } from "react-router-dom";
 import ImageGallery from "../components/Galleries";
-import CommissionListing from "../components/CommissionListing";
+//import CommissionListing from "../components/CommissionListing";
 
 const Home = () => {
   const [commissionData, setCommissionData] = useState([]);
@@ -51,30 +51,33 @@ const Home = () => {
                     View Galleries
                   </button>
                 </Link>
-                <Link to="/commissions/new" style={{ textDecoration: "none" }}>
+                <Link
+                  to="/commissions/create"
+                  style={{ textDecoration: "none" }}
+                >
                   <button className="button-primary-sw">New Commission</button>
                 </Link>
               </div>
-              {hasCommission ? (
+              {/* {hasCommission ? (
                 ""
-              ) : (
-                <div className="Cta">
-                  <div className="FeaturedIcon">
-                    <div className="Edit04">
-                      {/* Assuming EditIcon is imported */}
-                      <EditIcon />
-                    </div>
-                  </div>
-                  <div className="TextAndSupportingText">
-                    <div className="Text">
-                      You do not have any art commissioned yet.
-                    </div>
-                    <div className="SupportingText">
-                      Dive into the editor and start creating
-                    </div>
+              ) : ( */}
+              <div className="Cta">
+                <div className="FeaturedIcon">
+                  <div className="Edit04">
+                    {/* Assuming EditIcon is imported */}
+                    <EditIcon />
                   </div>
                 </div>
-              )}
+                <div className="TextAndSupportingText">
+                  <div className="Text">
+                    You do not have any art commissioned yet.
+                  </div>
+                  <div className="SupportingText">
+                    Dive into the editor and start creating
+                  </div>
+                </div>
+              </div>
+              {/* )} */}
             </div>
           </div>
         </div>
@@ -82,7 +85,8 @@ const Home = () => {
         {/* Render ImageGallery component */}
         <div className="col-lg-12 mt-3">
           {/* Conditionally render ImageGallery or CommissionListing */}
-          {hasCommission ? <CommissionListing /> : <ImageGallery />}
+          {/*hasCommission ? <CommissionListing /> : <ImageGallery />*/}
+          <ImageGallery />
         </div>
       </div>
     </div>

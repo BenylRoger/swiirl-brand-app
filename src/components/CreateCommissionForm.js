@@ -1,7 +1,7 @@
 import React from "react";
-import "./commission.css"; // Import CSS file
+import "./CreateCommissionForm.css"; // Import CSS file
 
-const Commission = () => {
+const CreateCommissionForm = () => {
   return (
     <div className="form-container">
       <div className="form-row">
@@ -106,4 +106,4 @@ const Commission = () => {
   );
 };
 
-export default Commission;
+export default CreateCommissionForm;

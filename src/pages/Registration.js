@@ -1,16 +1,10 @@
-import React from "react";
+import RegistrationForm from "../components/RegistrationForm";
 
-import LoginForm from "../components/LoginForm";
-import LoginFooter from "../components/LoginFooter";
-
-import "./Login.css"; // Import CSS file for styling
-
-function Login() {
+function Registration() {
   return (
     <div className="login-container">
       <div className="login-form-wrapper">
-        <LoginForm />
-        <LoginFooter page="login" />
+        <RegistrationForm />
       </div>
       <div className="login-image-wrapper">
         <img
@@ -22,5 +16,4 @@ function Login() {
     </div>
   );
 }
-
-export default Login;
+export default Registration;

@@ -6,10 +6,14 @@ import {
   Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
-import CommissionPage from "./pages/CommissionPage";
+
+import CreateCommision from "./pages/CreateCommission";
 import RootLayout from "./pages/Root";
 import Login from "./pages/Login";
 //import CommissionListing from "./pages/CommissionListing";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Registration from "./pages/Registration";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +22,18 @@ const router = createBrowserRouter([
       {
         path: "/", // Matches the root path specifically
         element: <Login />, // Display login page at root without RootLayout
+      },
+      {
+        path: "/forgot-password", // Matches the root path specifically
+        element: <ForgotPassword />, // Display login page at root without RootLayout
+      },
+      {
+        path: "/reset-password", // Matches the root path specifically
+        element: <ResetPassword />, // Display login page at root without RootLayout
+      },
+      {
+        path: "/registration", // Matches the root path specifically
+        element: <Registration />, // Display login page at root without RootLayout
       },
       {
         path: "/home",
@@ -51,11 +67,11 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/commissions/new",
+        path: "/commissions/create",
         element: (
           <PrivateRoute>
             <RootLayout>
-              <CommissionPage />
+              <CreateCommision />
             </RootLayout>
           </PrivateRoute>
         ),

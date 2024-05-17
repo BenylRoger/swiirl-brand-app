@@ -1,5 +1,5 @@
 import Breadcrumb from "../components/Breadcrumb";
-import Commission from "../components/commission";
+import CreateCommissionForm from "../components/CreateCommissionForm";
 
 function CommissionPage() {
   return (
@@ -11,7 +11,7 @@ function CommissionPage() {
           { name: "new", link: "/commissions/new" },
         ]}
       />
-      <Commission />
+      <CreateCommissionForm />
     </div>
   );
 }
