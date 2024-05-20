@@ -8,6 +8,8 @@ import {
   AuthenticationDetails,
 } from "amazon-cognito-identity-js";
 import "./RegistrationForm.css";
+import LoginLogo from "./LoginLogo";
+import LoginFooter from "./LoginFooter";
 
 const RegistrationForm = () => {
   const [email, setEmail] = useState("");
@@ -21,6 +23,8 @@ const RegistrationForm = () => {
   const [resendMessage, setResendMessage] = useState("");
   const [resendTimer, setResendTimer] = useState(15);
   const [isUserExists, setIsUserExists] = useState(false);
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleTogglePassword = () => {
@@ -28,6 +32,17 @@ const RegistrationForm = () => {
   };
 
   const handleSignUp = async () => {
+    // Validation checks
+    if (email === "") {
+      setError("Email cannot be empty.");
+
+      return;
+    }
+    if (password === "") {
+      setError("Password cannot be empty.");
+
+      return;
+    }
     const poolData = {
       UserPoolId: "eu-north-1_fiC62d8OP",
       ClientId: "715e0qqr8h55p6qi3onn397hku",
@@ -105,6 +120,12 @@ const RegistrationForm = () => {
   );
 
   const handleConfirmCode = () => {
+    console.log(confirmationCode);
+    if (confirmationCode === "") {
+      setError("Confirmation code cannot be empty.");
+
+      return;
+    }
     const poolData = {
       UserPoolId: "eu-north-1_fiC62d8OP",
       ClientId: "715e0qqr8h55p6qi3onn397hku",
@@ -160,6 +181,7 @@ const RegistrationForm = () => {
 
   const handlePasswordChange = (password) => {
     const errors = validatePassword(password);
+    setError("");
     setPasswordErrors(errors);
   };
 
@@ -213,6 +235,11 @@ const RegistrationForm = () => {
       {!showConfirmationCode && (
         <>
           <div className="login-form-container">
+            <div className="login-form-header">
+              <div className="login-form-group">
+                <LoginLogo />
+              </div>
+            </div>
             <div className="login-text">Register</div>
             <div className="login-desc">
               Welcome! Please enter your details.
@@ -233,108 +260,184 @@ const RegistrationForm = () => {
               <div className="login-form-group">
                 <label className="form-label">Password</label>
                 <input
-                  type="text"
+                  type="password"
                   className="form-control-input"
-                  placeholder="Enter your email"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                     handlePasswordChange(e.target.value);
                   }}
                 />
-                <img
+                {/* <img
                   className="icon-olor-instance"
                   alt="Icon olor"
                   src="icon-olor-1.svg"
                   onClick={handleTogglePassword}
                   style={{ cursor: "pointer" }}
-                />
+                /> */}
               </div>
             </div>
-
+            {isUserExists && (
+              <div className="login-form-row">
+                <div className="login-form-group">
+                  <div class="alert alert-info">
+                    User already exists with this email!{" "}
+                    <span>
+                      <NavLink to="/">Login here</NavLink>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className="login-form-row">
+                <div className="login-form-group">
+                  <div class="alert alert-danger">{error}</div>
+                </div>
+              </div>
+            )}
             <div className="password-errors">
               {!passwordErrors.minLength && (
-                <p className="error-message">
+                <div className="error-message">
                   <TicketIcon />
-                  Password must be at least 8 characters long.
-                </p>
+                  <p className="validation-text">
+                    Password must be at least 8 characters long.
+                  </p>
+                </div>
               )}
               {!passwordErrors.hasNumber && (
-                <p className="error-message">
+                <div className="error-message">
                   <TicketIcon />
-                  Password must contain at least 1 number.
-                </p>
+                  <p className="validation-text">
+                    {" "}
+                    Password must contain at least 1 number.
+                  </p>
+                </div>
               )}
               {!passwordErrors.hasSpecialChar && (
-                <p className="error-message">
+                <div className="error-message">
                   <TicketIcon />
-                  Password must contain at least 1 special character.
-                </p>
+                  <p className="validation-text">
+                    Password must contain at least 1 special character.
+                  </p>
+                </div>
               )}
               {!passwordErrors.hasUppercase && (
-                <p className="error-message">
+                <div className="error-message">
                   <TicketIcon />
-                  Password must contain at least 1 uppercase letter.
-                </p>
+                  <p className="validation-text">
+                    {" "}
+                    Password must contain at least 1 uppercase letter.
+                  </p>
+                </div>
               )}
               {!passwordErrors.hasLowercase && (
-                <p className="error-message">
+                <div className="error-message">
                   <TicketIcon />
-                  Password must contain at least 1 lowercase letter.
-                </p>
+                  <p className="validation-text">
+                    Password must contain at least 1 lowercase letter.
+                  </p>
+                </div>
               )}
+            </div>
+            <div className="login-form-button mt-3">
+              <div className="login-form-group">
+                <button
+                  onClick={handleSignUp}
+                  className="button-primary-sw-100 btn-center"
+                >
+                  {buttonText}
+                </button>
+              </div>
+            </div>
+            <div className="form-row-link">
+              <div className="form-group-register">
+                <LoginFooter />
+              </div>
             </div>
           </div>
         </>
       )}
 
       {showConfirmationCode && (
-        <div className="group">
-          <div className="label">Confirmation Code</div>
-          <input
-            type="text"
-            value={confirmationCode}
-            onChange={(e) => setConfirmationCode(e.target.value)}
-            className="rectangle"
-          />
+        <div className="login-form-container">
+          <div className="login-form-header">
+            <div className="login-form-group">
+              <LoginLogo />
+            </div>
+          </div>
+          <div className="login-form-row">
+            <div className="login-form-group">
+              <label className="form-label">Confirmation Code</label>
+              <input
+                type="text"
+                className="form-control-input"
+                placeholder="Enter confirmation code"
+                value={confirmationCode}
+                onChange={(e) => setConfirmationCode(e.target.value)}
+              />
+            </div>
+          </div>
           {resendLinkVisible && (
-            <button className="button-link" onClick={handleResendCode}>
-              Resend Confirmation Code
-            </button>
+            <div className="form-row-link">
+              <div className="form-group-link">
+                <button className="button-link" onClick={handleResendCode}>
+                  Resend confirmation code
+                </button>
+              </div>
+            </div>
           )}
-          {resendMessage && <p className="resend-message">{resendMessage}</p>}
+
+          {resendMessage && (
+            <div className="login-form-row">
+              <div className="login-form-group">
+                <div
+                  className={
+                    resendMessage.includes("success")
+                      ? "alert alert-success"
+                      : "alert alert-danger"
+                  }
+                >
+                  {resendMessage}
+                </div>
+              </div>
+            </div>
+          )}
           {!resendLinkVisible && (
-            <p className="resend-timer-message">
-              Resend link will be available in {resendTimer} seconds.
-            </p>
+            <div className="login-form-row">
+              <div className="login-form-group">
+                <div class="alert alert-info">
+                  Resend link will be available in {resendTimer} seconds.
+                </div>
+              </div>
+            </div>
           )}
+
+          <div className="login-form-button">
+            <div className="login-form-group">
+              <button
+                onClick={handleConfirmCode}
+                className="button-primary-sw-100 btn-center"
+              >
+                {buttonText}
+              </button>
+            </div>
+          </div>
         </div>
       )}
-
-      {isUserExists && (
-        <div className="isUserExits-message">
-          User already exists with this email!{" "}
-          <span>
-            <NavLink to="/home">Login here</NavLink>
-          </span>
-        </div>
-      )}
-
       {registrationSuccess && (
-        <div className="success-message">
-          User registration successful and verified!{" "}
-          <span>
-            <NavLink to="/home">Login here</NavLink>
-          </span>
+        <div className="login-form-row">
+          <div className="login-form-group">
+            <div class="alert alert-success">
+              User registration successful and verified!
+              <span>
+                <NavLink to="/">Login here</NavLink>
+              </span>
+            </div>
+          </div>
         </div>
       )}
-
-      <button
-        onClick={showConfirmationCode ? handleConfirmCode : handleSignUp}
-        className="frame"
-      >
-        <div className="text-wrapper">{buttonText}</div>
-      </button>
     </div>
   );
 };

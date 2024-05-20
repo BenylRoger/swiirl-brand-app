@@ -85,7 +85,7 @@ const ResetPassword = () => {
               <p style={{ color: "green" }}>{successMessage}</p>
             )}
             <div className="back-to-link-div">
-              <Link to="/login" className="back-to-login-link">
+              <Link to="/" className="back-to-login-link">
                 Back to Login
               </Link>
             </div>

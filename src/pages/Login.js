@@ -1,7 +1,6 @@
 import React from "react";
 
 import LoginForm from "../components/LoginForm";
-import LoginFooter from "../components/LoginFooter";
 
 import "./Login.css"; // Import CSS file for styling
 
@@ -10,7 +9,6 @@ function Login() {
     <div className="login-container">
       <div className="login-form-wrapper">
         <LoginForm />
-        <LoginFooter page="login" />
       </div>
       <div className="login-image-wrapper">
         <img

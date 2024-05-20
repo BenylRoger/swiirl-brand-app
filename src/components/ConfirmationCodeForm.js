@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { confirmRegistration, resendConfirmationCode } from "../AwsService";
 
-//import { login } from "../authSlice";
+import LoginLogo from "./LoginLogo";
 import "./ConfirmationCodeForm.css";
 
 function ConfirmationCodeForm({ onCallback, userName }) {
@@ -55,6 +55,11 @@ function ConfirmationCodeForm({ onCallback, userName }) {
 
   return (
     <div className="login-form-container">
+      <div className="login-form-header">
+        <div className="login-form-group">
+          <LoginLogo />
+        </div>
+      </div>
       <div className="login-text">Confirmation</div>
       <div className="login-desc">
         Welcome! Please enter your confirmation code.
@@ -98,45 +103,45 @@ function ConfirmationCodeForm({ onCallback, userName }) {
       {resendMessage && (
         <div className="login-form-row">
           <div className="login-form-group">
-            <p className="resend-message">{resendMessage}</p>
-          </div>{" "}
+            <div class="alert alert-success">{resendMessage}</div>
+          </div>
         </div>
       )}
       {!resendLinkVisible && (
         <div className="login-form-row">
           <div className="login-form-group">
-            <p className="resend-timer-message">
+            <div class="alert alert-info">
               Resend link will be available in {resendTimer} seconds.
-            </p>
+            </div>
           </div>
         </div>
       )}
       {registrationSuccess && (
         <div className="login-form-row">
           <div className="login-form-group">
-            <div className="success-message">
-              User registration successful and verified!{" "}
+            <div class="alert alert-success">
+              User registration successful and verified!
               <button className="button-link" onClick={handleLogin}>
                 Login here
               </button>
-            </div>{" "}
-          </div>{" "}
+            </div>
+          </div>
         </div>
       )}
       {registrationFailure && (
         <div className="login-form-row">
           <div className="login-form-group">
-            <div className="success-message">
+            <div class="alert alert-danger">
               User registration failed! Try registering again.
             </div>
           </div>
         </div>
       )}
-      <div className="login-form-row">
+      <div className="login-form-button">
         <div className="login-form-group">
           <button
             onClick={handleConfirmCode}
-            className="button-primary-sw btn-center"
+            className="button-primary-sw-100 btn-center"
           >
             <div className="text-wrapper">{buttonText}</div>
           </button>

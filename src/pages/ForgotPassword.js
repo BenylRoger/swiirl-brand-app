@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { forgotPassword } from "../AwsService"; // Import the AWS service
+import LoginLogo from "../components/LoginLogo";
 
 import "./ForgotPassword.css";
 
@@ -30,6 +31,11 @@ const ForgotPassword = () => {
       <div className="login-form-wrapper">
         <div className="loginform">
           <div className="login-form-container">
+            <div className="login-form-header">
+              <div className="login-form-group">
+                <LoginLogo />
+              </div>
+            </div>
             <div className="login-text">Forgot password</div>
             <div className="login-desc">Welcome! Please enter your email.</div>
             <div className="login-form-row">
@@ -47,17 +53,17 @@ const ForgotPassword = () => {
             <div className="login-form-row">
               <div className="login-form-group">
                 <div className="back-to-link-div">
-                  <Link to="/home" className="back-to-login-link">
+                  <Link to="/" className="back-to-login-link">
                     Back to Login
                   </Link>
                 </div>
               </div>
             </div>
-            <div className="login-form-row">
+            <div className="login-form-button">
               <div className="login-form-group">
                 <button
                   onClick={handleForgotPassword}
-                  className="button-primary-sw btn-center"
+                  className="button-primary-sw-100 btn-center"
                 >
                   Send Verification Code
                 </button>

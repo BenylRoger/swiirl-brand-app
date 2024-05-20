@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import "./CreateCommissionForm.css"; // Import CSS file
+import UploadIcon from "../icons/upload";
 
 const CreateCommissionForm = () => {
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const handleFileChange = (event) => {
+    setSelectedFiles([...event.target.files]); // Spread operator for immutability
+  };
+  function formatFileSize(size) {
+    const units = ["KB", "MB", "GB"];
+    let i = 0;
+    let formattedSize = size;
+
+    while (formattedSize >= 1024 && i < units.length - 1) {
+      formattedSize /= 1024;
+      i++;
+    }
+
+    return `${formattedSize.toFixed(2)}${units[i]}`;
+  }
+
   return (
     <div className="form-container">
       <div className="form-row">
@@ -93,6 +111,48 @@ const CreateCommissionForm = () => {
             className="form-control-textarea"
             placeholder="E.g. What does ”Leaving the world better than you found it” mean to you?"
           />
+        </div>
+      </div>
+
+      <div className="form-row">
+        <div className="form-group">
+          <label className="upload-control" htmlFor="upload-input">
+            <input
+              type="file"
+              multiple
+              id="upload-input"
+              onChange={handleFileChange}
+            />
+
+            <div className="uploadicon">
+              <UploadIcon /> {/* Or your SVG element */}
+            </div>
+            <div className="className=" upload-options>
+              <p className="click">Click to upload</p>
+              {/* <p className="drag">or drag and drop</p> */}
+            </div>
+            <div className="upload-types">
+              SVG, PNG, JPG or GIF (max. 800x400px)
+            </div>
+          </label>
+
+          {selectedFiles.length > 0 && (
+            <ul style={{ listStyleType: "none", margin: 0, padding: 0 }}>
+              {selectedFiles.map((file) => (
+                <li className="selected-files" key={file.name}>
+                  <div className="selected-file-grouping">
+                    <div className="icons-files">{/*icon*/}</div>
+                    <div className="file-details">
+                      <div className="filename">{file.name} </div>
+                      <div className="filetype">
+                        ({formatFileSize(file.size)})
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
       <div className="form-row">

@@ -1,32 +1,32 @@
 .already-have-an-acco {
-  color: transparent;
-  font-family: "Poppins", Helvetica;
-  font-size: 16px;
-  font-weight: 500;
-
-  letter-spacing: 0;
-  line-height: normal;
-  margin: 0;
-}
-
-.text-wrapper-3 {
-  color: #000000;
-  font-family: "Poppins", Helvetica;
+  align-self: stretch;
+  color: var(--colors-text-text-secondary-700, #344054);
+  font-family: "Inter", Helvetica;
   font-size: 14px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: normal;
-  position: relative;
-  width: fit-content;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
 }
 
 .text-wrapper-4 {
-  color: #74e7c7;
-  font-family: "Poppins", Helvetica;
+  color: #4285f4;
+
+  /* Text sm/Semibold */
+  font-family: Inter;
   font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 142.857% */
+  font-family: "Inter", Helvetica;
+}
+
+.text-wrapper-3 {
+  color: var(--colors-text-text-tertiary-600, #475467);
+  /* Text sm/Regular */
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
   font-weight: 400;
-  letter-spacing: 0;
-  line-height: normal;
-  position: relative;
-  width: fit-content;
+  line-height: 20px; /* 142.857% */
+  font-family: "Inter", Helvetica;
 }

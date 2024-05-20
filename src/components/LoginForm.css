@@ -56,7 +56,7 @@
 
 .login-form-group {
   flex: 1 0 50%; /* Each form group takes up 50% of the row width */
-  padding-right: 1.5rem; /* Adjust spacing between form elements as needed */
+  /* padding-right: 1.5rem; Adjust spacing between form elements as needed */
 }
 
 .forgot-password {
@@ -172,4 +172,27 @@
   font-weight: 600;
   line-height: 20px;
   word-wrap: break-word;
+}
+.form-group-register {
+  display: flex;
+  justify-content: center;
+  padding-right: 1.5rem;
+}
+
+.text-wrapper-2 {
+  color: #4285f4;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  font-family: "Inter", Helvetica;
+}
+
+.icon-olor-instance {
+  position: absolute;
+  left: 395px;
+  top: 42px;
+  transform: translateY(-50%);
+  width: 25px !important;
 }

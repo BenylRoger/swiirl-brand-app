@@ -56,7 +56,7 @@
   top: 0;
   left: 0;
   height: 100vh;
-  overflow-y: auto; /* Allow scrolling in sidebar if needed */
+  /* overflow-y: auto; Allow scrolling in sidebar if needed */
   transition: all 0.3s ease-in-out;
   padding: 10px 14px;
 
@@ -69,7 +69,7 @@
 
 .sidebar.close {
   /* transform: translateX(-90%); Hide sidebar when closed */
-  width: 88px;
+  width: 92px;
 }
 
 .sidebar header {

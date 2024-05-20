@@ -31,14 +31,23 @@ function RootLayout({ children }) {
         className={`sidebar ${isSidebarClosed ? "close" : ""}`}
         onMouseEnter={toggleSidebar}
       >
-        <header className="navbar">
-          <img
-            alt="swiirl-logo"
-            className="swiirl-logo"
-            src="/swiirl-logo.png"
-          />
-        </header>
-
+        {isSidebarClosed ? (
+          <header className="navbar">
+            <img
+              alt="swiirl-logo"
+              className="swiirl-logo"
+              src="/home/brand-short.png"
+            />
+          </header>
+        ) : (
+          <header className="navbar">
+            <img
+              alt="swiirl-logo"
+              className="swiirl-logo"
+              src="/home/swiirl-logo.png"
+            />
+          </header>
+        )}
         <div
           className="menu-bar"
           style={{
@@ -110,7 +119,7 @@ function RootLayout({ children }) {
         className={`content ${isSidebarClosed ? "overlayed" : ""}`}
         style={{
           flex: 1,
-          marginLeft: isSidebarClosed ? "80px" : "225px",
+          marginLeft: isSidebarClosed ? "80px" : "210px",
           transition: "margin-left 0.3s ease-in-out",
         }}
       >

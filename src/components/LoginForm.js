@@ -1,12 +1,14 @@
 // LoginForm.js
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { authenticateUser } from "../AwsService"; // Import the AWS service
 import "./LoginForm.css";
 import "./ConfirmationCodeForm";
 import ConfirmationCodeForm from "./ConfirmationCodeForm";
-import LoginLogo from "../components/LoginLogo";
+import LoginLogo from "./LoginLogo";
+import LoginFooter from "./LoginFooter";
+import { loginSuccess } from "../actions";
 
 function LoginForm() {
   // State variables for form input, error handling, etc.
@@ -21,7 +23,7 @@ function LoginForm() {
 
   // Hooks for navigation and Redux
   const navigate = useNavigate();
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // Event handler for checkbox change
   const handleCheckboxChange = () => {
@@ -61,7 +63,7 @@ function LoginForm() {
     try {
       // Call the AWS Cognito authentication function
       const result = await authenticateUser(username, password);
-
+      console.log(result);
       // Handle the authentication result
       if (!result.isConfirmed && !result.isAuthenticated) {
         console.log("User is not confirmed.");
@@ -69,7 +71,7 @@ function LoginForm() {
         // Handle logic for obtaining the confirmation code
       } else if (result.isConfirmed && result.isAuthenticated) {
         setUserConfirmed(true);
-
+        dispatch(loginSuccess(username));
         navigate("/home");
       } else {
         setUserConfirmed(true);
@@ -113,7 +115,7 @@ function LoginForm() {
                 />
               </div>
             </div>
-            <div className="login-form-row">
+            <div className="login-form-row" style={{ position: "relative" }}>
               <div className="login-form-group">
                 <label className="form-label text-md-end">Password</label>
                 <input
@@ -122,13 +124,13 @@ function LoginForm() {
                   onChange={(e) => setPassword(e.target.value)}
                   className="form-control-input"
                 />
-                <img
+                {/* <img
                   className="icon-olor-instance"
                   alt="Icon olor"
-                  src="icon-olor-1.svg"
+                  src="/Login/icon-olor-1.svg"
                   onClick={handleTogglePassword}
                   style={{ cursor: "pointer" }}
-                />
+                /> */}
               </div>
             </div>
             <div className="form-row-link">
@@ -181,23 +183,26 @@ function LoginForm() {
                 </button>
               </div>
             </div>
+            <div className="form-row-link">
+              <div className="form-group-register">
+                <LoginFooter page="login" />
+              </div>
+            </div>
+            {errorTerms && (
+              <div className="login-form-row">
+                <div className="login-form-group">
+                  <div class="alert alert-danger">{errorTerms}</div>
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className="login-form-row">
+                <div className="login-form-group">
+                  <div class="alert alert-danger">{error}</div>
+                </div>
+              </div>
+            )}
           </div>
-
-          {error && (
-            <div className="login-form-row">
-              <div className="login-form-group">
-                <p style={{ color: "red" }}>{error}</p>
-              </div>
-            </div>
-          )}
-
-          {errorTerms && (
-            <div className="login-form-row">
-              <div className="login-form-group">
-                <p style={{ color: "red" }}>{errorTerms}</p>
-              </div>
-            </div>
-          )}
         </>
       )}
     </div>

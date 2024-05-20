@@ -14,6 +14,7 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Registration from "./pages/Registration";
+import { useSelector } from "react-redux";
 
 const router = createBrowserRouter([
   {
@@ -82,9 +83,10 @@ const router = createBrowserRouter([
 
 // Private Route component (optional, checks for login state)
 function PrivateRoute({ children }) {
-  const isLoggedIn = localStorage.getItem("isLoggedIn"); // Check login state
+  const username = useSelector((state) => state.username);
+  console.log("redux:" + username);
 
-  if (!isLoggedIn) {
+  if (!username) {
     return <Navigate to="/" replace />; // Redirect to login if not logged in
   }
 
