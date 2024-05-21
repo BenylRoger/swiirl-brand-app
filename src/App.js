@@ -83,10 +83,11 @@ const router = createBrowserRouter([
 
 // Private Route component (optional, checks for login state)
 function PrivateRoute({ children }) {
-  const username = useSelector((state) => state.username);
-  console.log("redux:" + username);
+  //const username = useSelector((state) => state.username);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  //console.log("redux:" + username);
 
-  if (!username) {
+  if (!isLoggedIn) {
     return <Navigate to="/" replace />; // Redirect to login if not logged in
   }
 

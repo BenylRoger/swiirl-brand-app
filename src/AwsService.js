@@ -33,6 +33,7 @@ export const authenticateUser = (username, password) => {
       onSuccess: (session) => {
         // Authentication successful
         resolve({ isAuthenticated: true, isConfirmed: true });
+        console.log(session);
       },
       onFailure: (error) => {
         // Authentication failed

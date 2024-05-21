@@ -1,29 +1,18 @@
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import { thunk } from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // Use localStorage
 
-const initialState = {
-  username: "", // Initially empty username
-  loggedIn: false, // Initially not logged in
+import rootReducer from "./reducers"; // Import your combined reducers
+
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["user"], // Persist only the user reducer
 };
 
-const reducer = (state = initialState, action) => {
-  switch (action.type) {
-    case "LOGIN_SUCCESS":
-      return {
-        ...state,
-        username: action.payload.username,
-        loggedIn: true,
-      };
-    case "LOGOUT":
-      return {
-        ...state,
-        username: "",
-        loggedIn: false,
-      };
-    default:
-      return state;
-  }
-};
-
-const store = createStore(reducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = createStore(persistedReducer, applyMiddleware(thunk));
+export const persistor = persistStore(store);
 
 export default store;
