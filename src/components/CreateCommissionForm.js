@@ -1,19 +1,23 @@
 import React, { useState } from "react";
+import AWS from "aws-sdk";
 import "./CreateCommissionForm.css"; // Import CSS file
 import UploadIcon from "../icons/upload";
+
+const s3 = new AWS.S3();
 
 const CreateCommissionForm = () => {
   const [formData, setFormData] = useState({
     name: "",
-    targetLocation: "",
+    target_location: "",
     timeline: "",
-    mediaType: "",
-    contentUsage: "",
-    campaignGoal: "",
-    creativeDirection: "",
-    themesPrompts: "",
+    mediatype: "",
+    content_usage: "",
+    campaign_goal: "",
+    creative_design: "",
+    themes_prompts: "",
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -21,31 +25,46 @@ const CreateCommissionForm = () => {
   };
 
   const handleFileChange = (event) => {
-    setSelectedFiles([...event.target.files]); // Spread operator for immutability
+    const files = Array.from(event.target.files);
+    if (files.length > 5) {
+      alert("You can only upload a maximum of 5 files");
+    } else {
+      setSelectedFiles(files);
+    }
+  };
+
+  const uploadToS3 = async (file) => {
+    const params = {
+      Bucket: "swiirl-brand-app-images",
+      Key: `uploads/${Date.now()}_${file.name}`,
+      Body: file,
+      ContentType: file.type,
+    };
+
+    try {
+      const data = await s3.upload(params).promise();
+      return data.Location; // URL of the uploaded file
+    } catch (error) {
+      console.error("Error uploading to S3", error);
+      throw error;
+    }
   };
 
   const handleSubmitCommission = async (event) => {
     event.preventDefault();
 
-    // Assuming you have a function to get file paths or convert files to base64, etc.
-    const files = selectedFiles.map((file) => file.name);
-
-    const requestBody = {
-      name: formData.name,
-      target_location: formData.targetLocation,
-      timeline: formData.timeline,
-      mediatype: formData.mediaType,
-      content_usage: formData.contentUsage,
-      campaign_goal: formData.campaignGoal,
-      creative_design: formData.creativeDirection,
-      themes_prompts: formData.themesPrompts,
-      files: files.join(", "), // Join file names with commas or handle as needed
-      createdby: "benylrogerj@gmail.com", // Hardcoded value
-      createdon: new Date().toISOString(), // Current date and time
-      status: "Pending", // Hardcoded value
-    };
-
     try {
+      const fileUploadPromises = selectedFiles.map(uploadToS3);
+      const fileUrls = await Promise.all(fileUploadPromises);
+
+      const requestBody = {
+        ...formData,
+        files: fileUrls.join(", "), // Join file URLs with commas
+        createdby: "benylrogerj@gmail.com", // Hardcoded value
+        createdon: new Date().toISOString(), // Current date and time
+        status: "Pending", // Hardcoded value
+      };
+
       const response = await fetch(
         "https://pe3jqjbadoovbtgmuddibsrpqy0mbfqe.lambda-url.eu-north-1.on.aws/",
         {
@@ -58,10 +77,19 @@ const CreateCommissionForm = () => {
       );
 
       if (response.ok) {
-        // Handle successful response
-        console.log("Commission submitted successfully");
+        setSuccessMessage("Commission submitted successfully");
+        setFormData({
+          name: "",
+          target_location: "",
+          timeline: "",
+          mediatype: "",
+          content_usage: "",
+          campaign_goal: "",
+          creative_design: "",
+          themes_prompts: "",
+        });
+        setSelectedFiles([]);
       } else {
-        // Handle errors
         console.error("Error submitting commission");
       }
     } catch (error) {
@@ -97,25 +125,25 @@ const CreateCommissionForm = () => {
               placeholder="Let’s give the school details for their new assignment"
             />
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label className="form-label text-md-end">Target Locations</label>
             <input
               type="text"
               className="form-control-input"
-              name="targetLocation"
-              value={formData.targetLocation}
+              name="target_location"
+              value={formData.target_location}
               onChange={handleChange}
               placeholder="Preferred impact regions"
             />
-          </div>
+          </div> */}
         </div>
         <div className="form-row">
           <div className="form-group">
             <label className="form-label">Target Locations</label>
             <textarea
               className="form-control-textarea"
-              name="targetLocation"
-              value={formData.targetLocation}
+              name="target_location"
+              value={formData.target_location}
               onChange={handleChange}
               placeholder="Preferred impact regions"
             />
@@ -134,8 +162,8 @@ const CreateCommissionForm = () => {
             <input
               type="text"
               className="form-control-input"
-              name="mediaType"
-              value={formData.mediaType}
+              name="mediatype"
+              value={formData.mediatype}
               onChange={handleChange}
               placeholder="Photography"
             />
@@ -148,8 +176,8 @@ const CreateCommissionForm = () => {
             </label>
             <textarea
               className="form-control-textarea"
-              name="contentUsage"
-              value={formData.contentUsage}
+              name="content_usage"
+              value={formData.content_usage}
               onChange={handleChange}
               placeholder="E.g. social media campaigns, annual sustainability report, signage for event and retail, etc."
             />
@@ -160,8 +188,8 @@ const CreateCommissionForm = () => {
             </label>
             <textarea
               className="form-control-textarea"
-              name="campaignGoal"
-              value={formData.campaignGoal}
+              name="campaign_goal"
+              value={formData.campaign_goal}
               onChange={handleChange}
               placeholder="E.g. raise awareness of the importance of sustainable living practices. What does sustainability mean for different communities?"
             />
@@ -172,8 +200,8 @@ const CreateCommissionForm = () => {
             <label className="form-label text-md-end">Creative direction</label>
             <textarea
               className="form-control-textarea"
-              name="creativeDirection"
-              value={formData.creativeDirection}
+              name="creative_design"
+              value={formData.creative_design}
               onChange={handleChange}
               placeholder="E.g. use of earthy tones and natural colors is encouraged. No harmful content or disturbing images."
             />
@@ -182,8 +210,8 @@ const CreateCommissionForm = () => {
             <label className="form-label">Themes and Prompts</label>
             <textarea
               className="form-control-textarea"
-              name="themesPrompts"
-              value={formData.themesPrompts}
+              name="themes_prompts"
+              value={formData.themes_prompts}
               onChange={handleChange}
               placeholder="E.g. What does ”Leaving the world better than you found it” mean to you?"
             />
@@ -235,6 +263,7 @@ const CreateCommissionForm = () => {
             </button>
           </div>
         </div>
+        {successMessage && <p className="success-message">{successMessage}</p>}
       </form>
     </div>
   );
