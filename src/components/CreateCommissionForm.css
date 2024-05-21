@@ -113,7 +113,7 @@
 
 .upload-options {
   display: flex; /* Arrange "Click" and "or drag and drop" horizontally */
-  justify-content: space-between; /* Align them left and right */
+  justify-content: center; /* Align them left and right */
   width: 100%; /* Ensure full width within the container */
   /* Add other styles for text size, color, etc. */
 }
