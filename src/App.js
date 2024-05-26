@@ -10,11 +10,12 @@ import Home from "./pages/Home";
 import CreateCommision from "./pages/CreateCommission";
 import RootLayout from "./pages/Root";
 import Login from "./pages/Login";
-//import CommissionListing from "./pages/CommissionListing";
+
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Registration from "./pages/Registration";
 import { useSelector } from "react-redux";
+import CommissionGetPage from "./pages/GetCommission";
 
 const router = createBrowserRouter([
   {
@@ -67,6 +68,17 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/commissions",
+        element: (
+          <PrivateRoute>
+            <RootLayout>
+              <CommissionGetPage />
+            </RootLayout>
+          </PrivateRoute>
+        ),
+      },
+
       {
         path: "/commissions/create",
         element: (

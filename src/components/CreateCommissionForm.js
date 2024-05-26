@@ -66,7 +66,7 @@ const CreateCommissionForm = () => {
       };
 
       const response = await fetch(
-        "https://pe3jqjbadoovbtgmuddibsrpqy0mbfqe.lambda-url.eu-north-1.on.aws/",
+        "https://mc54wwmd2jqfhvis2huj46wl240ilczp.lambda-url.us-east-1.on.aws/",
         {
           method: "POST",
           headers: {
