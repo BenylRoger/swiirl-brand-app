@@ -7,10 +7,12 @@ import MediaTypeIcon from "../icons/Mediatype";
 import FileIcon from "../icons/Files";
 import TargetLocationIcon from "../icons/TargetLocation";
 
+import { Link } from "react-router-dom";
+
 const CommissionGrid = () => {
   const [commissions, setCommissions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(1);
+  const [itemsPerPage] = useState(2);
   const [activeTab, setActiveTab] = useState("basicdetails");
 
   useEffect(() => {
@@ -74,6 +76,19 @@ const CommissionGrid = () => {
 
   return (
     <div className="grid-container">
+      <div className="col-lg-12 mb-3">
+        <div className="row align-items-center">
+          <div className="col-lg-12 d-flex justify-content-between align-items-center">
+            <h2 style={{ margin: 0 }}>Commissions</h2>
+
+            <div className="button-placement">
+              <Link to="/commissions/create" style={{ textDecoration: "none" }}>
+                <button className="button-primary-sw">New Commission</button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
       {latestCommission && (
         <div className="latest-commission">
           <div className="commission-details">

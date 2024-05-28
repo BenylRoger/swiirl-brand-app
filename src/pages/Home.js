@@ -5,23 +5,23 @@ import EditIcon from "../icons/Edit";
 import { Link } from "react-router-dom";
 import ImageGallery from "../components/Galleries";
 //import CommissionListing from "../components/CommissionListing";
+import axios from "axios";
 
 const Home = () => {
   const [commissionData, setCommissionData] = useState([]);
 
   useEffect(() => {
-    // Fetch commission data from JSON file or API endpoint
-    const fetchCommissionData = async () => {
+    const fetchCommissions = async () => {
       try {
-        const campaignData = require("../data/campaigns.json");
-
-        setCommissionData(campaignData);
+        const response = await axios.get(
+          "https://mc54wwmd2jqfhvis2huj46wl240ilczp.lambda-url.us-east-1.on.aws/"
+        );
+        setCommissionData(response.data);
       } catch (error) {
-        console.error("Error fetching commission data:", error);
+        console.error("Error fetching commissions", error);
       }
     };
-
-    fetchCommissionData();
+    fetchCommissions();
   }, []);
 
   // Check if there are commissions
@@ -58,26 +58,26 @@ const Home = () => {
                   <button className="button-primary-sw">New Commission</button>
                 </Link>
               </div>
-              {/* {hasCommission ? (
+              {hasCommission ? (
                 ""
-              ) : ( */}
-              <div className="Cta">
-                <div className="FeaturedIcon">
-                  <div className="Edit04">
-                    {/* Assuming EditIcon is imported */}
-                    <EditIcon />
+              ) : (
+                <div className="Cta">
+                  <div className="FeaturedIcon">
+                    <div className="Edit04">
+                      {/* Assuming EditIcon is imported */}
+                      <EditIcon />
+                    </div>
+                  </div>
+                  <div className="TextAndSupportingText">
+                    <div className="Text">
+                      You do not have any art commissioned yet.
+                    </div>
+                    <div className="SupportingText">
+                      Dive into the editor and start creating
+                    </div>
                   </div>
                 </div>
-                <div className="TextAndSupportingText">
-                  <div className="Text">
-                    You do not have any art commissioned yet.
-                  </div>
-                  <div className="SupportingText">
-                    Dive into the editor and start creating
-                  </div>
-                </div>
-              </div>
-              {/* )} */}
+              )}
             </div>
           </div>
         </div>
