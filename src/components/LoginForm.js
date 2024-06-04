@@ -71,8 +71,8 @@ function LoginForm() {
         // Handle logic for obtaining the confirmation code
       } else if (result.isConfirmed && result.isAuthenticated) {
         setUserConfirmed(true);
-        //dispatch(loginSuccess(username));
-        dispatch(loginSuccess({ username, token: username }));
+        dispatch(loginSuccess(username, username));
+        //dispatch(loginSuccess({ username, token: username }));
         navigate("/home");
       } else {
         setUserConfirmed(true);

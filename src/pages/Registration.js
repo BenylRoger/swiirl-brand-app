@@ -1,4 +1,5 @@
 import RegistrationForm from "../components/RegistrationForm";
+import RightImage from "../components/RightImage";
 
 function Registration() {
   return (
@@ -7,11 +8,7 @@ function Registration() {
         <RegistrationForm />
       </div>
       <div className="login-image-wrapper">
-        <img
-          src="/login/image.png" // Replace with your image path
-          alt="right side Login"
-          className="login-image"
-        />
+        <RightImage />
       </div>
     </div>
   );

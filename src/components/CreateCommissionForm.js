@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import AWS from "aws-sdk";
 import "./CreateCommissionForm.css"; // Import CSS file
 import UploadIcon from "../icons/upload";
+import { useSelector } from "react-redux";
+
+AWS.config.update({
+  region: "eu-north-1",
+  accessKeyId: "AKIATHAQUWNVPYGOJAMQ", // Use environment variables for security
+  secretAccessKey: "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",
+});
 
 const s3 = new AWS.S3();
 
@@ -18,7 +25,7 @@ const CreateCommissionForm = () => {
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
-
+  const username = useSelector((state) => state.user.username);
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
@@ -36,7 +43,9 @@ const CreateCommissionForm = () => {
   const uploadToS3 = async (file) => {
     const params = {
       Bucket: "swiirl-brand-app-images",
-      Key: `uploads/${Date.now()}_${file.name}`,
+
+      Key: `${formData.name}/${file.name}`,
+
       Body: file,
       ContentType: file.type,
     };
@@ -56,13 +65,14 @@ const CreateCommissionForm = () => {
     try {
       const fileUploadPromises = selectedFiles.map(uploadToS3);
       const fileUrls = await Promise.all(fileUploadPromises);
-
+      const fileNames = selectedFiles.map((file) => file.name);
       const requestBody = {
         ...formData,
+        filenames: fileNames.join(", "),
         files: fileUrls.join(", "), // Join file URLs with commas
-        createdby: "benylrogerj@gmail.com", // Hardcoded value
+        createdby: username, // Hardcoded value
         createdon: new Date().toISOString(), // Current date and time
-        status: "Pending", // Hardcoded value
+        status: "In Progress", // Hardcoded value
       };
 
       const response = await fetch(
@@ -87,6 +97,7 @@ const CreateCommissionForm = () => {
           campaign_goal: "",
           creative_design: "",
           themes_prompts: "",
+          links: "",
         });
         setSelectedFiles([]);
       } else {
@@ -254,6 +265,18 @@ const CreateCommissionForm = () => {
                 ))}
               </ul>
             )}
+          </div>
+        </div>
+        <div className="form-row">
+          <div className="form-group">
+            <label className="form-label">Links</label>
+            <textarea
+              className="form-control-textarea"
+              name="links"
+              value={formData.links}
+              onChange={handleChange}
+              placeholder="Provide any relevant links"
+            />
           </div>
         </div>
         <div className="form-row">

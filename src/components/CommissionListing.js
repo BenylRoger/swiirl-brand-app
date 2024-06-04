@@ -1,17 +1,43 @@
 import React, { useState, useEffect } from "react";
 import "./CommissionListing.css";
 
-// Import the image data
-import imageData from "../data/images.json";
+import CardContainer from "./CardContainer";
 
 function CommissionListing() {
-  const [images, setImages] = useState([]);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    // Shuffle the image data to ensure randomness
-    const shuffledImages = [...imageData].sort(() => Math.random() - 0.5);
-    setImages(shuffledImages.slice(0, 3)); // Select the first 3 images
+    // Fetch data from the API
+    fetch(
+      "https://yv5njvks2xbquqciiauvn6bfj40ibxav.lambda-url.us-east-1.on.aws/"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        // Group images by commissionid
+        const groupedData = data.reduce((acc, item) => {
+          const { commissionid, id, image_url } = item;
+          if (!acc[commissionid]) {
+            acc[commissionid] = {
+              commissionid,
+              id,
+              images: [],
+              description: `ID: ${id}`,
+            };
+          }
+          acc[commissionid].images.push({
+            url: image_url.trim(),
+            alt: `Image for commission ${commissionid}`,
+          });
+          return acc;
+        }, {});
+
+        // Transform the grouped data into an array of card objects
+        const transformedCards = Object.values(groupedData);
+        setCards(transformedCards);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
+
   return (
     <div>
       <div className="intro-commission">
@@ -20,24 +46,7 @@ function CommissionListing() {
           Your latest commission is here!
         </div>
       </div>
-      <div className="commission-collage">
-        <div className="image-container">
-          <div className="image-column first">
-            <img src={images[0]?.url} alt={images[0]?.alt} />
-          </div>
-          <div className="image-column second">
-            <img src={images[1]?.url} alt={images[1]?.alt} />
-            <img src={images[2]?.url} alt={images[2]?.alt} />
-          </div>
-          <div className="image-column first">
-            <img src={images[0]?.url} alt={images[0]?.alt} />
-          </div>
-          <div className="image-column second">
-            <img src={images[1]?.url} alt={images[1]?.alt} />
-            <img src={images[2]?.url} alt={images[2]?.alt} />
-          </div>
-        </div>
-      </div>
+      <CardContainer cards={cards} />
     </div>
   );
 }

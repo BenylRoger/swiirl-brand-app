@@ -4,17 +4,19 @@ import "./Home.css"; // Import CSS file
 import EditIcon from "../icons/Edit";
 import { Link } from "react-router-dom";
 import ImageGallery from "../components/Galleries";
-//import CommissionListing from "../components/CommissionListing";
+import { useSelector } from "react-redux";
+import CommissionListing from "../components/CommissionListing";
 import axios from "axios";
 
 const Home = () => {
   const [commissionData, setCommissionData] = useState([]);
-
+  const username = useSelector((state) => state.user.username);
   useEffect(() => {
+    console.log(username);
     const fetchCommissions = async () => {
       try {
         const response = await axios.get(
-          "https://mc54wwmd2jqfhvis2huj46wl240ilczp.lambda-url.us-east-1.on.aws/"
+          `https://mc54wwmd2jqfhvis2huj46wl240ilczp.lambda-url.us-east-1.on.aws/?createdby=${username}&status=Completed`
         );
         setCommissionData(response.data);
       } catch (error) {
@@ -22,7 +24,7 @@ const Home = () => {
       }
     };
     fetchCommissions();
-  }, []);
+  }, [username]);
 
   // Check if there are commissions
   const hasCommission = commissionData && commissionData.length > 0;
@@ -85,8 +87,8 @@ const Home = () => {
         {/* Render ImageGallery component */}
         <div className="col-lg-12 mt-3">
           {/* Conditionally render ImageGallery or CommissionListing */}
-          {/*hasCommission ? <CommissionListing /> : <ImageGallery />*/}
-          <ImageGallery />
+          {hasCommission ? <CommissionListing /> : <ImageGallery />}
+          {/* <ImageGallery /> */}
         </div>
       </div>
     </div>

@@ -83,9 +83,9 @@ function RootLayout({ children }) {
               </li>
 
               <li className="nav-link">
-                <Link to="/analytics">
+                <Link to="/admin">
                   <AnalyticIcon />
-                  <span className="text nav-text">Analytics</span>
+                  <span className="text nav-text">Admin</span>
                 </Link>
               </li>
             </div>

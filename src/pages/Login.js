@@ -3,6 +3,7 @@ import React from "react";
 import LoginForm from "../components/LoginForm";
 
 import "./Login.css"; // Import CSS file for styling
+import RightImage from "../components/RightImage";
 
 function Login() {
   return (
@@ -11,11 +12,7 @@ function Login() {
         <LoginForm />
       </div>
       <div className="login-image-wrapper">
-        <img
-          src="/login/image.png" // Replace with your image path
-          alt="right side Login"
-          className="login-image"
-        />
+        <RightImage />
       </div>
     </div>
   );

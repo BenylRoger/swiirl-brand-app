@@ -6,20 +6,32 @@ import TimelineIcon from "../icons/Timeline";
 import MediaTypeIcon from "../icons/Mediatype";
 import FileIcon from "../icons/Files";
 import TargetLocationIcon from "../icons/TargetLocation";
+import { useSelector } from "react-redux";
+import AWS from "aws-sdk";
 
 import { Link } from "react-router-dom";
+AWS.config.update({
+  region: "eu-north-1",
+  accessKeyId: "AKIATHAQUWNVPYGOJAMQ", // Use environment variables for security
+  secretAccessKey: "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",
+});
+
+const s3 = new AWS.S3();
 
 const CommissionGrid = () => {
   const [commissions, setCommissions] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(2);
   const [activeTab, setActiveTab] = useState("basicdetails");
+  const [imageUrls, setImageUrls] = useState([]);
 
+  const username = useSelector((state) => state.user.username);
   useEffect(() => {
+    console.log(username);
     const fetchCommissions = async () => {
       try {
         const response = await axios.get(
-          "https://mc54wwmd2jqfhvis2huj46wl240ilczp.lambda-url.us-east-1.on.aws/"
+          `https://mc54wwmd2jqfhvis2huj46wl240ilczp.lambda-url.us-east-1.on.aws/?createdby=${username}`
         );
         setCommissions(response.data);
       } catch (error) {
@@ -27,7 +39,41 @@ const CommissionGrid = () => {
       }
     };
     fetchCommissions();
-  }, []);
+  }, [username]);
+
+  useEffect(() => {
+    const fetchImageUrls = async () => {
+      try {
+        if (!commissions.length) return;
+
+        const latestCommission = commissions[commissions.length - 1];
+        if (!latestCommission.filenames) return;
+
+        const commissionName = latestCommission.name;
+        const filenames = latestCommission.filenames
+          .split(",")
+          .map((file) => file.trim());
+
+        const imageUrls = await Promise.all(
+          filenames.map(async (file) => {
+            const url = await s3.getSignedUrlPromise("getObject", {
+              Bucket: "swiirl-brand-app-images",
+              Key: `${commissionName}/${file}`,
+              Expires: 60,
+            });
+            return url;
+          })
+        );
+
+        setImageUrls(imageUrls);
+        console.log(imageUrls);
+      } catch (error) {
+        console.error("Error fetching image URLs", error);
+      }
+    };
+
+    fetchImageUrls();
+  }, [commissions]);
 
   // Calculate the current items
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -148,7 +194,7 @@ const CommissionGrid = () => {
                         <TargetLocationIcon />
                         <div className="details-right">
                           <div>
-                            <strong>Target Location:</strong>{" "}
+                            <strong>Target Location</strong>{" "}
                           </div>
                           <div>{latestCommission.target_location}</div>
                         </div>
@@ -157,7 +203,7 @@ const CommissionGrid = () => {
                         <FileIcon />
                         <div className="details-right">
                           <div>
-                            <strong>Files:</strong>{" "}
+                            <strong>Files</strong>{" "}
                           </div>
                           <div>{latestCommission.files}</div>
                         </div>
@@ -168,7 +214,7 @@ const CommissionGrid = () => {
                         <TimelineIcon />
                         <div className="details-right">
                           <div>
-                            <strong>Timeline:</strong>{" "}
+                            <strong>Timeline</strong>{" "}
                           </div>
                           <div>
                             {new Date(
@@ -177,18 +223,37 @@ const CommissionGrid = () => {
                           </div>
                         </div>
                       </div>
+                      <div className="fields">
+                        <TimelineIcon />
+                        <div className="details-right">
+                          <div>
+                            <strong>Relevant links</strong>{" "}
+                          </div>
+                          <div>{latestCommission.links}</div>
+                        </div>
+                      </div>
                     </div>
                     <div className="details-row">
                       <div className="fields">
                         <MediaTypeIcon />
                         <div className="details-right">
                           <div>
-                            <strong>Media Type:</strong>{" "}
+                            <strong>Media Type</strong>{" "}
                           </div>
                           <div style={{ whiteSpace: "pre-wrap" }}>
                             {latestCommission.mediatype.replace(/,/g, ",\n")}
                           </div>
                         </div>
+                      </div>
+                      <div className="fields">
+                        {imageUrls.map((url, index) => (
+                          <img
+                            style={{ height: "75px", width: "75px" }}
+                            key={index}
+                            src={url}
+                            alt={`Image ${index + 1}`}
+                          />
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -196,11 +261,11 @@ const CommissionGrid = () => {
                 {activeTab === "goals" && (
                   <div className="tab-content">
                     <p>
-                      <strong>Content Usage:</strong>{" "}
+                      <strong>Content Usage</strong>{" "}
                       {latestCommission.content_usage}
                     </p>
                     <p>
-                      <strong>Campaign Goal:</strong>{" "}
+                      <strong>Campaign Goal</strong>{" "}
                       {latestCommission.campaign_goal}
                     </p>
                   </div>

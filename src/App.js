@@ -16,6 +16,9 @@ import ResetPassword from "./pages/ResetPassword";
 import Registration from "./pages/Registration";
 import { useSelector } from "react-redux";
 import CommissionGetPage from "./pages/GetCommission";
+import AdminPage from "./pages/Admin";
+import CommGalleries from "./pages/CommGalleries";
+import ImageDetail from "./pages/ImageDetails";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +72,16 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/admin",
+        element: (
+          <PrivateRoute>
+            <RootLayout>
+              <AdminPage />
+            </RootLayout>
+          </PrivateRoute>
+        ),
+      },
+      {
         path: "/commissions",
         element: (
           <PrivateRoute>
@@ -78,7 +91,26 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-
+      {
+        path: "/image-details",
+        element: (
+          <PrivateRoute>
+            <RootLayout>
+              <ImageDetail />
+            </RootLayout>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/comm-galleries",
+        element: (
+          <PrivateRoute>
+            <RootLayout>
+              <CommGalleries />
+            </RootLayout>
+          </PrivateRoute>
+        ),
+      },
       {
         path: "/commissions/create",
         element: (
@@ -97,7 +129,7 @@ const router = createBrowserRouter([
 function PrivateRoute({ children }) {
   //const username = useSelector((state) => state.username);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  //console.log("redux:" + username);
+  console.log(isLoggedIn);
 
   if (!isLoggedIn) {
     return <Navigate to="/" replace />; // Redirect to login if not logged in

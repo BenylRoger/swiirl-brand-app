@@ -1,0 +1,63 @@
+/* Card Container */
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Space between cards */
+  padding: 20px;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+}
+
+/* Card */
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 1200px; /* Adjust width as needed */
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-images {
+  display: flex; /* Arrange images in a row */
+  justify-content: space-between;
+  gap: 5px;
+  overflow-x: auto; /* Allow horizontal scrolling if images overflow */
+}
+
+.card-image {
+  width: calc(33.33% - 5px); /* Adjust width for three images */
+  height: 150px; /* Adjust height as needed */
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 20px;
+  flex: 1; /* Takes up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-family: Inter, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.card-description {
+  font-family: Inter, sans-serif;
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 20px;
+  flex: 1; /* Takes up remaining space */
+}
+
+.card-icon {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

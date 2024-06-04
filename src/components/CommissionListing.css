@@ -1,7 +1,11 @@
 .intro-commission {
   display: flex;
   align-items: center;
-  margin-left: 10px; /* Add small space to the left */
+
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  flex-wrap: wrap;
 }
 
 .new-symbol {
@@ -35,12 +39,16 @@
 .commission-collage {
   display: flex; /* Allow stacking columns side-by-side */
   width: 100%; /* Adjust width as needed */
-  min-width: 600px;
-  max-width: 650pxpx;
+  /* min-width: 600px; */
+  /* max-width: 650pxpx; */
+  justify-content: center;
 }
 
-.image-container {
+.image-container-gallery {
   display: flex; /* Arrange columns horizontally */
+  width: 70%;
+  margin-top: 20px;
+  max-height: 250px;
 }
 
 .image-column {
@@ -67,4 +75,39 @@
 .image-column img {
   width: 100%; /* Images fill the container width */
   object-fit: cover; /* Crop images to fit */
+}
+
+.FeaturedIcon {
+  width: 50.2px;
+  height: 50.2px;
+  position: relative;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 10.45px;
+  border: 1.05px #eaecf0 solid;
+}
+
+.Edit04 {
+  width: 25.1px;
+  height: 25.1px;
+  left: 12.55px;
+  top: 12.55px;
+  position: absolute;
+}
+
+.Icon {
+  width: 18.83px;
+  height: 17.91px;
+  left: 3.14px;
+  top: 3.01px;
+  position: absolute;
+  border: 2.09px #344054 solid;
+}
+
+.TextAndSupportingText {
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 2.09px;
+  display: inline-flex;
 }
