@@ -10,6 +10,11 @@ import { useSelector } from "react-redux";
 import AWS from "aws-sdk";
 
 import { Link } from "react-router-dom";
+AWS.config.update({
+  region: "eu-north-1",
+  accessKeyId: "AKIATHAQUWNVPYGOJAMQ", // Use environment variables for security
+  secretAccessKey: "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",
+});
 
 const s3 = new AWS.S3();
 

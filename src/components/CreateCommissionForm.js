@@ -4,6 +4,12 @@ import "./CreateCommissionForm.css"; // Import CSS file
 import UploadIcon from "../icons/upload";
 import { useSelector } from "react-redux";
 
+AWS.config.update({
+  region: "eu-north-1",
+  accessKeyId: "AKIATHAQUWNVPYGOJAMQ", // Use environment variables for security
+  secretAccessKey: "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",
+});
+
 const s3 = new AWS.S3();
 
 const CreateCommissionForm = () => {
