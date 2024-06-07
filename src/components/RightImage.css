@@ -1,0 +1,5 @@
+.login-image {
+  width: 100%; /* Optional for background image */
+  object-fit: fill; /* Stretch image to fill container */
+  height: 100%; /* Set image height explicitly */
+}

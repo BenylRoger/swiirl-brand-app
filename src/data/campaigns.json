@@ -1,0 +1,33 @@
+[
+  {
+    "campaignId": "001",
+    "campaignName": "Summer Sale Campaign",
+    "images": [
+      "https://example.com/image1.jpg",
+      "https://example.com/image2.jpg",
+      "https://example.com/image3.jpg"
+    ],
+    "targetLocation": "Worldwide",
+    "timeline": "June 1st - August 31st, 2024",
+    "mediaType": "Social media, Email, Website banners",
+    "usage": "Promote summer discounts and new products",
+    "goal": "Increase sales by 20% compared to last summer",
+    "creativeDesign": "Bright colors, summer-themed graphics",
+    "themesAndPrompts": "Fun in the sun, beach vibes, summer adventures"
+  },
+  {
+    "campaignId": "002",
+    "campaignName": "Back to School Campaign",
+    "images": [
+      "https://example.com/image4.jpg",
+      "https://example.com/image5.jpg"
+    ],
+    "targetLocation": "United States",
+    "timeline": "August 1st - September 15th, 2024",
+    "mediaType": "Social media, Email, In-store signage",
+    "usage": "Promote back-to-school deals and essentials",
+    "goal": "Drive foot traffic to physical stores and increase online sales",
+    "creativeDesign": "School supplies, educational themes",
+    "themesAndPrompts": "Get ready for the new school year, learning made fun"
+  }
+]

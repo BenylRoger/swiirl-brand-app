@@ -1,0 +1,31 @@
+.login-container {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh; /* Ensure full viewport height */
+}
+
+.login-form-wrapper,
+.login-image-wrapper {
+  flex: 1; /* Divide space equally for desktop (optional) */
+}
+
+@media (max-width: 768px) {
+  /* Mobile view: Hide image and stack form and footer */
+  .login-image-wrapper {
+    display: none;
+  }
+
+  .login-form-wrapper {
+    flex: auto; /* Allow form to fill remaining space */
+  }
+
+  .login-container {
+    flex-direction: column; /* Stack login form and footer */
+  }
+}
+
+/* Image Styling for Responsiveness */
+.login-image-wrapper {
+  position: relative; /* Required for background image approach */
+  height: 100vh;
+}

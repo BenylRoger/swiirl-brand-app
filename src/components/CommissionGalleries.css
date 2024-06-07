@@ -1,0 +1,46 @@
+.tags {
+  display: flex;
+
+  height: 25.303px;
+  padding: var(--spacing-xs, 4px) 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm, 6px);
+  border: 1px solid var(--Colors-Border-border-primary, #d0d5dd);
+  background: var(--Colors-Background-bg-primary, #fff);
+  color: var(--colors-text-text-secondary-700, #344054);
+  text-align: center;
+
+  /* Text sm/Medium */
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+}
+
+.campaign-name-image {
+  width: 100px; /* Set the desired width */
+  height: 100px; /* Set the desired height */
+  border-radius: 50%; /* This makes the image circular */
+  object-fit: cover; /* Ensures the image covers the container */
+}
+
+.campaign-name {
+  color: #000;
+  text-align: center;
+
+  /* Display lg/Semibold */
+  font-family: "Inter", Helvetica;
+  font-size: 46px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 60px; /* 125% */
+  letter-spacing: -0.96px;
+}
+
+.heading-content {
+  text-align: center;
+}

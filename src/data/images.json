@@ -1,0 +1,52 @@
+[
+  {
+    "url": "https://wallpapers.com/images/high/ultra-wide-nature-z4apqbosvv6ob5wq.webp",
+    "alt": "Image description for image 1",
+    "tags": ["nature", "landscape", "scenery"]
+  },
+  {
+    "url": "https://wallpapers.com/images/high/ultra-wide-nature-3u4gnizl9oliahf8.webp",
+    "alt": "Image description for image 2",
+    "tags": ["nature", "mountain", "forest"]
+  },
+  {
+    "url": "https://wallpapers.com/images/thumbnail/ultra-wide-nature-8prss1nq11f9hw8s.webp",
+    "alt": "Image description for image 3",
+    "tags": ["nature", "waterfall", "river"]
+  },
+  {
+    "url": "https://wallpapers.com/images/high/temple-of-poseidon-cover-8em26qmj3p8iol0u.webp",
+    "alt": "Image description for image 4",
+    "tags": ["architecture", "temple", "historical"]
+  },
+  {
+    "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR38Q2QBXLxgbOkwl9RV2JO0i1Vd7PpUeaJljOMC1ZxqA&s",
+    "alt": "Image description for image 5",
+    "tags": ["nature", "sunset", "beach"]
+  },
+  {
+    "url": "https://www.shutterstock.com/image-photo/outstanding-pink-box-yellow-boxes-600nw-1350939611.jpg",
+    "alt": "Image description for image 6",
+    "tags": ["food", "restaurant", "dinner"]
+  },
+  {
+    "url": "https://cdn.pixabay.com/photo/2016/03/05/22/17/food-1239231_1280.jpg",
+    "alt": "Image description for image 7",
+    "tags": ["food", "fruit", "healthy"]
+  },
+  {
+    "url": "https://wallpapers.com/images/thumbnail/ultra-wide-nature-8prss1nq11f9hw8s.webp",
+    "alt": "Image description for image 8",
+    "tags": ["nature", "mountain", "scenery"]
+  },
+  {
+    "url": "https://wallpapers.com/images/high/temple-of-poseidon-cover-8em26qmj3p8iol0u.webp",
+    "alt": "Image description for image 9",
+    "tags": ["architecture", "historical", "landmark"]
+  },
+  {
+    "url": "https://cdn-media-2.freecodecamp.org/w1280/5f9c9a4c740569d1a4ca24c2.jpg",
+    "alt": "Image description for image 10",
+    "tags": ["nature", "landscape", "mountain"]
+  }
+]

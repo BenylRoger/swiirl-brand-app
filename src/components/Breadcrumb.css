@@ -1,0 +1,27 @@
+.breadcrumb {
+  padding: 8px 15px;
+  margin: 20px 10px;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+  color: #6c757d;
+  font-family: "Inter", Helvetica;
+  display: flex;
+  align-items: center; /* This centers content vertically */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+}

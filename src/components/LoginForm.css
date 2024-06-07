@@ -1,0 +1,198 @@
+.loginform {
+  display: flex; /* Enable flexbox for the body */
+  min-height: 100vh; /* Ensure full viewport height */
+  justify-content: center; /* Vertically center child elements */
+  align-items: center; /* Optionally center horizontally */
+}
+.login-text {
+  color: var(--colors-text-text-primary-900, #101828);
+
+  /* Display md/Semibold */
+  font-family: "Inter", Helvetica;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 44px; /* 122.222% */
+  letter-spacing: -0.72px;
+
+  margin-bottom: 0.5rem;
+}
+
+.login-desc {
+  color: var(--colors-text-text-tertiary-600, #475467);
+
+  /* Text md/Regular */
+  font-family: "Inter", Helvetica;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+
+  margin-bottom: 1.5rem;
+}
+
+.login-form-container {
+  margin: 0 auto;
+  width: 60%;
+}
+
+.login-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem; /* Adjust margin between rows as needed */
+}
+
+.login-form-header {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem; /* Adjust margin between rows as needed */
+}
+
+.login-form-button {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem; /* Adjust margin between rows as needed */
+}
+
+.login-form-group {
+  flex: 1 0 50%; /* Each form group takes up 50% of the row width */
+  /* padding-right: 1.5rem; Adjust spacing between form elements as needed */
+}
+
+.forgot-password {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm, 6px);
+  flex-shrink: 0;
+  color: #4285f4;
+  text-align: right;
+
+  /* Text sm/Semibold */
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 142.857% */
+}
+
+.button-link {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm, 6px);
+  flex-shrink: 0;
+  color: #4285f4;
+  text-align: right;
+
+  /* Text sm/Semibold */
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 142.857% */
+}
+.form-row-link {
+  margin-bottom: 1.5rem;
+}
+
+.form-group-link {
+  display: flex; /* Enable flexbox for layout */
+  justify-content: space-between; /* Distribute items evenly with space between */
+  padding-right: 1.5rem; /* Adjust spacing between form elements as needed */
+}
+
+.rectangle-2 {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--spacing-xs, 4px);
+  border: 1px solid var(--Colors-Border-border-primary, #d0d5dd);
+  margin-right: 0.5rem; /* Space between checkbox and label */
+}
+
+.i-agree-to-all-the-t {
+  align-self: stretch;
+  color: var(--colors-text-text-secondary-700, #344054);
+
+  /* Text sm/Medium */
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  display: flex;
+  align-items: center; /* Center the content vertically */
+}
+
+.i-agree-to-all-the-t .span,
+.i-agree-to-all-the-t .text-wrapper-2 {
+  margin-right: 0.25rem; /* Space between text spans and links */
+}
+
+.login-form-row-acknowledgement {
+  margin-bottom: 2.5rem;
+}
+
+.login-form-group-acknowledgement {
+  display: flex; /* Enable flexbox for layout */
+  gap: 10px;
+  padding-right: 1.5rem; /* Adjust spacing between form elements as needed */
+  align-items: center;
+}
+
+.button-primary-sw-100 {
+  width: 100%;
+  height: 41.92px;
+
+  padding-top: 10.46px;
+  padding-bottom: 10.46px;
+  background: #7f56d9;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.05px #7f56d9 solid;
+
+  gap: 4px;
+
+  padding-left: 2px;
+  padding-right: 2px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: white;
+  font-size: 14px;
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+.form-group-register {
+  display: flex;
+  justify-content: center;
+  padding-right: 1.5rem;
+}
+
+.text-wrapper-2 {
+  color: #4285f4;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  font-family: "Inter", Helvetica;
+}
+
+.icon-olor-instance {
+  position: absolute;
+  left: 395px;
+  top: 42px;
+  transform: translateY(-50%);
+  width: 25px !important;
+}

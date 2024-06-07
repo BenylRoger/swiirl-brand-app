@@ -1,0 +1,16 @@
+.password-errors {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px; /* Adjust the gap between error messages */
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Adjust the gap between the icon and text */
+}
+
+.validation-text {
+  margin: 0; /* Remove default margin */
+}
