@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import AWS from "aws-sdk";
+import AWS from "../Awsconfig";
 import "./CreateCommissionForm.css"; // Import CSS file
 import UploadIcon from "../icons/upload";
 import { useSelector } from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const s3 = new AWS.S3();
 
@@ -38,7 +39,7 @@ const CreateCommissionForm = () => {
     const params = {
       Bucket: "swiirl-brand-app-images",
 
-      Key: `${formData.name}/${file.name}`,
+      Key: `${formData.name}/sample_${file.name}`,
 
       Body: file,
       ContentType: file.type,
@@ -59,7 +60,7 @@ const CreateCommissionForm = () => {
     try {
       const fileUploadPromises = selectedFiles.map(uploadToS3);
       const fileUrls = await Promise.all(fileUploadPromises);
-      const fileNames = selectedFiles.map((file) => file.name);
+      const fileNames = selectedFiles.map((file) => "sample_" + file.name);
       const requestBody = {
         ...formData,
         filenames: fileNames.join(", "),
@@ -280,7 +281,13 @@ const CreateCommissionForm = () => {
             </button>
           </div>
         </div>
-        {successMessage && <p className="success-message">{successMessage}</p>}
+        {successMessage && (
+          <div className="form-row">
+            <div className="login-form-group">
+              <div class="alert alert-success">{successMessage}</div>
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,28 +1,67 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ImageDetails.css";
 import useAsticaNLPAPI from "../services/fetch_asticaGPT";
+import AWS from "../Awsconfig";
 
 const getModeration = (moderate) => {
   // Implement your moderation logic here
   return moderate ? "Moderated" : "Not Moderated";
 };
 
+const s3 = new AWS.S3();
+
+const getSignedUrl = async (key) => {
+  console.log("key", key);
+  const params = {
+    Bucket: "swiirl-brand-app-images",
+    Key: key,
+  };
+  try {
+    const data = await s3.getObject(params).promise();
+    console.log("data", data);
+    const imageUrl = `data:image/jpeg;base64,${data.Body.toString("base64")}`;
+    return imageUrl;
+  } catch (error) {
+    console.error("Error getting signed URL from S3", error);
+    return "/home/Image_not_available1.jpg"; // Fallback image
+  }
+};
+
 function ImageDetail() {
+  const [imageUrl, setImageUrl] = useState([]);
   const location = useLocation();
-  const { image } = location.state;
+  const { image, commissionname } = location.state;
   const [copied, setCopied] = useState(false);
   const [chatprompt, setChatprompt] = useState("");
   const { nlpResult, nlpError, nlpLoading, callAsticaNLPAPI } =
     useAsticaNLPAPI();
-
+  console.log(image);
   const copyTags = () => {
     navigator.clipboard.writeText(image.tags.join(", ")).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
   };
+
+  useEffect(() => {
+    const fetchImageUrls = async () => {
+      try {
+        const url = await getSignedUrl(`${commissionname}/${image.imagename}`); // Pass the image URL directly
+        console.log(url);
+        const imageUrl = {
+          ...image,
+          url: url,
+          alt: image.alt || "No image available",
+        };
+        setImageUrl(imageUrl);
+      } catch (error) {
+        console.error("Error fetching signed URL:", error);
+      }
+    };
+    fetchImageUrls();
+  }, [image, commissionname]);
 
   const handleProcessNLP = () => {
     if (chatprompt) {
@@ -44,12 +83,8 @@ function ImageDetail() {
       </div>
       <div className="row">
         <div className="col-lg-6">
-          <div className="image-container d-flex flex-column align-items-center justify-content-center">
-            <img
-              alt="swiirl-logo"
-              className="nft-image"
-              src={image.image_url}
-            />
+          <div className="image-container-1 d-flex flex-column align-items-center justify-content-center">
+            <img alt="swiirl-logo" className="nft-image" src={imageUrl.url} />
           </div>
         </div>
         <div className="col-lg-6">
@@ -110,12 +145,8 @@ function ImageDetail() {
               <div className="col-md-6">
                 <div className="group-nft">
                   <div className="label">Image Moderation</div>
-                  <div className="tags-container attribute-values">
-                    {image && (
-                      <span className="tag attribute-values">
-                        {getModeration(image.moderation)}
-                      </span>
-                    )}
+                  <div className="tag attribute-values">
+                    {image && getModeration(image.moderation)}
                   </div>
                 </div>
               </div>
@@ -128,39 +159,36 @@ function ImageDetail() {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col-lg-12">
-                <div className="group-nft">
-                  <div className="label">Main Tags</div>
-                  <div className="tags-container attribute-values">
-                    {image.tags &&
-                      image.tags.map((tag, index) => (
-                        <span key={index} className="tag attribute-values">
-                          {tag}
-                        </span>
-                      ))}
-                  </div>
-                  <button className="button-link" onClick={copyTags}>
-                    Copy Tags
-                  </button>
-                  {copied && (
-                    <p
-                      className="attribute-values"
-                      style={{ marginRight: "5px" }}
-                    >
-                      Tags copied!
-                    </p>
-                  )}
-                </div>
-              </div>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="group-nft">
+            <div className="label">Main Tags</div>
+            <div className="tags-container attribute-values">
+              {image.tags &&
+                image.tags.map((tag, index) => (
+                  <span key={index} className="tag-small attribute-values">
+                    {tag}
+                  </span>
+                ))}
             </div>
+            <button className="button-link" onClick={copyTags}>
+              Copy Tags
+            </button>
+            {copied && (
+              <p className="attribute-values" style={{ marginRight: "5px" }}>
+                Tags copied!
+              </p>
+            )}
           </div>
         </div>
       </div>
       <div className="row">
         <div className="col-md-12">
-          <div className="caption-details-image">
-            <div className="header-description-image">
+          <div className="group-nft">
+            <div className="label">
               Image Description [ai captured description]
             </div>
             <div className="tag attribute-values">{image.description}</div>
@@ -180,9 +208,14 @@ function ImageDetail() {
                 value={chatprompt}
                 onChange={(e) => setChatprompt(e.target.value)}
               />
-              <button onClick={handleProcessNLP} className="button">
-                Generate Content
-              </button>
+              <div className="button-area">
+                <button
+                  onClick={handleProcessNLP}
+                  className="button-primary-sw"
+                >
+                  Generate Content
+                </button>
+              </div>
               {nlpLoading && (
                 <img
                   src="/Loader/Loader.svg"

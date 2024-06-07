@@ -4,7 +4,7 @@
 
   align-items: center;
   gap: 20px;
-  padding: 10px 20px;
+  padding: 10px 40px;
   flex-wrap: wrap;
 }
 
@@ -31,7 +31,7 @@
 .new-commission-text {
   color: #000; /* Using a fixed text color */
   font-family: Inter;
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 600;
   line-height: 1.2; /* Using a fixed line-height value */
 }

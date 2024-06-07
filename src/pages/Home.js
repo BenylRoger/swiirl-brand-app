@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import "./Home.css"; // Import CSS file
 import EditIcon from "../icons/Edit";
 import { Link } from "react-router-dom";
@@ -10,7 +9,9 @@ import axios from "axios";
 
 const Home = () => {
   const [commissionData, setCommissionData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // New loading state
   const username = useSelector((state) => state.user.username);
+
   useEffect(() => {
     console.log(username);
     const fetchCommissions = async () => {
@@ -21,6 +22,8 @@ const Home = () => {
         setCommissionData(response.data);
       } catch (error) {
         console.error("Error fetching commissions", error);
+      } finally {
+        setIsLoading(false); // Set loading to false after API call
       }
     };
     fetchCommissions();
@@ -28,6 +31,7 @@ const Home = () => {
 
   // Check if there are commissions
   const hasCommission = commissionData && commissionData.length > 0;
+
   return (
     <div className="content-area">
       <div className="row">
@@ -48,11 +52,11 @@ const Home = () => {
           <div className="row align-items-center">
             <div className="col-lg-12">
               <div className="button-placement">
-                <Link to="/galleries" style={{ textDecoration: "none" }}>
+                {/* <Link to="/galleries" style={{ textDecoration: "none" }}>
                   <button className="button-secondary-sw">
                     View Galleries
                   </button>
-                </Link>
+                </Link> */}
                 <Link
                   to="/commissions/create"
                   style={{ textDecoration: "none" }}
@@ -60,13 +64,10 @@ const Home = () => {
                   <button className="button-primary-sw">New Commission</button>
                 </Link>
               </div>
-              {hasCommission ? (
-                ""
-              ) : (
+              {!isLoading && !hasCommission && (
                 <div className="Cta">
                   <div className="FeaturedIcon">
                     <div className="Edit04">
-                      {/* Assuming EditIcon is imported */}
                       <EditIcon />
                     </div>
                   </div>
@@ -84,11 +85,14 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Render ImageGallery component */}
         <div className="col-lg-12 mt-3">
-          {/* Conditionally render ImageGallery or CommissionListing */}
-          {hasCommission ? <CommissionListing /> : <ImageGallery />}
-          {/* <ImageGallery /> */}
+          {!isLoading &&
+            (hasCommission ? (
+              // commissions={commissionData}
+              <CommissionListing username={username} />
+            ) : (
+              <ImageGallery />
+            ))}
         </div>
       </div>
     </div>

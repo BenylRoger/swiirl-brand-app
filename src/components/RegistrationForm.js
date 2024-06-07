@@ -424,18 +424,18 @@ const RegistrationForm = () => {
               </button>
             </div>
           </div>
-        </div>
-      )}
-      {registrationSuccess && (
-        <div className="login-form-row">
-          <div className="login-form-group">
-            <div class="alert alert-success">
-              User registration successful and verified!
-              <span>
-                <NavLink to="/">Login here</NavLink>
-              </span>
+          {registrationSuccess && (
+            <div className="login-form-row">
+              <div className="login-form-group">
+                <div class="alert alert-success">
+                  User registration successful and verified!
+                  <span>
+                    <NavLink to="/">Login here</NavLink>
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

@@ -9,30 +9,34 @@ function CommissionListing() {
   useEffect(() => {
     // Fetch data from the API
     fetch(
-      "https://yv5njvks2xbquqciiauvn6bfj40ibxav.lambda-url.us-east-1.on.aws/"
+      "https://yv5njvks2xbquqciiauvn6bfj40ibxav.lambda-url.us-east-1.on.aws/?join=true&createdby=benylrogerj@gmail.com"
     )
       .then((response) => response.json())
       .then((data) => {
-        // Group images by commissionid
-        const groupedData = data.reduce((acc, item) => {
-          const { commissionid, id, image_url } = item;
-          if (!acc[commissionid]) {
-            acc[commissionid] = {
-              commissionid,
+        // Group commissions by their ID
+        const groupedCommissions = data.reduce((acc, commission) => {
+          const { id, name, campaign_goal, image_url, imagename } = commission;
+          if (!acc[id]) {
+            acc[id] = {
               id,
+              name,
+              campaign_goal,
               images: [],
-              description: `ID: ${id}`,
             };
           }
-          acc[commissionid].images.push({
-            url: image_url.trim(),
-            alt: `Image for commission ${commissionid}`,
-          });
+          if (image_url) {
+            acc[id].images.push({
+              url: image_url,
+              alt: `Image for commission ${id}`,
+              imagename: imagename,
+            });
+          }
           return acc;
         }, {});
 
-        // Transform the grouped data into an array of card objects
-        const transformedCards = Object.values(groupedData);
+        // Convert grouped commissions into array
+        const transformedCards = Object.values(groupedCommissions);
+        console.log(transformedCards);
         setCards(transformedCards);
       })
       .catch((error) => console.error("Error fetching data:", error));

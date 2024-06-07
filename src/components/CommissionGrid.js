@@ -7,7 +7,7 @@ import MediaTypeIcon from "../icons/Mediatype";
 import FileIcon from "../icons/Files";
 import TargetLocationIcon from "../icons/TargetLocation";
 import { useSelector } from "react-redux";
-import AWS from "aws-sdk";
+import AWS from "../Awsconfig";
 
 import { Link } from "react-router-dom";
 
@@ -54,8 +54,9 @@ const CommissionGrid = () => {
             const url = await s3.getSignedUrlPromise("getObject", {
               Bucket: "swiirl-brand-app-images",
               Key: `${commissionName}/${file}`,
-              Expires: 60,
+              Expires: 60 * 60,
             });
+            console.log("url", url);
             return url;
           })
         );
@@ -246,7 +247,7 @@ const CommissionGrid = () => {
                             style={{ height: "75px", width: "75px" }}
                             key={index}
                             src={url}
-                            alt={`Image ${index + 1}`}
+                            alt={`swiirl-brand pic ${index + 1}`}
                           />
                         ))}
                       </div>
@@ -256,11 +257,11 @@ const CommissionGrid = () => {
                 {activeTab === "goals" && (
                   <div className="tab-content">
                     <p>
-                      <strong>Content Usage</strong>{" "}
+                      <strong>Content Usage:</strong>{" "}
                       {latestCommission.content_usage}
                     </p>
                     <p>
-                      <strong>Campaign Goal</strong>{" "}
+                      <strong>Campaign Goal:</strong>{" "}
                       {latestCommission.campaign_goal}
                     </p>
                   </div>

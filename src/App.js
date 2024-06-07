@@ -19,6 +19,7 @@ import CommissionGetPage from "./pages/GetCommission";
 import AdminPage from "./pages/Admin";
 import CommGalleries from "./pages/CommGalleries";
 import ImageDetail from "./pages/ImageDetails";
+import CommissionDetailPage from "./pages/Admin-comm-details";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,16 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <RootLayout>
               <AdminPage />
+            </RootLayout>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/admin/commission/:id",
+        element: (
+          <PrivateRoute>
+            <RootLayout>
+              <CommissionDetailPage />
             </RootLayout>
           </PrivateRoute>
         ),

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import HomeIcon from "../icons/home";
 import AnalyticIcon from "../icons/Analytics";
 import CommissionIcon from "../icons/Commissions";
-import GalleryIcon from "../icons/Galleries";
+import { useSelector } from "react-redux";
 import SupportIcon from "../icons/Support";
 import SettingIcon from "../icons/Settings";
 import LogoutIcon from "../icons/Logout";
@@ -14,7 +14,7 @@ import "./Root.css";
 
 function RootLayout({ children }) {
   const [isSidebarClosed, setIsSidebarClosed] = useState(true);
-
+  const username = useSelector((state) => state.user.username);
   const toggleSidebar = () => {
     setIsSidebarClosed(!isSidebarClosed);
   };
@@ -68,12 +68,12 @@ function RootLayout({ children }) {
                 </Link>
               </li>
 
-              <li className="nav-link">
+              {/* <li className="nav-link">
                 <Link to="/galleries">
                   <GalleryIcon />
                   <span className="text nav-text">Galleries</span>
                 </Link>
-              </li>
+              </li> */}
 
               <li className="nav-link">
                 <Link to="/commissions">
@@ -81,13 +81,18 @@ function RootLayout({ children }) {
                   <span className="text nav-text">Commissions</span>
                 </Link>
               </li>
-
-              <li className="nav-link">
-                <Link to="/admin">
-                  <AnalyticIcon />
-                  <span className="text nav-text">Admin</span>
-                </Link>
-              </li>
+              {[
+                "benylrogerj@gmail.com",
+                "mike@swiirl.io",
+                "anna456778@gmail.com",
+              ].includes(username) && (
+                <li className="nav-link">
+                  <Link to="/admin">
+                    <AnalyticIcon />
+                    <span className="text nav-text">Admin</span>
+                  </Link>
+                </li>
+              )}
             </div>
 
             <div className="bottom-content">
@@ -104,9 +109,9 @@ function RootLayout({ children }) {
                 </Link>
               </li>
               <li className="nav-link">
-                <Link to="/analytics">
-                  <i className="bx bx-pie-chart-alt icon"></i>
-                  <span className="text nav-text">Benyl</span>
+                <Link to="/analytics" className="name-holder">
+                  {/* <i className="bx bx-pie-chart-alt icon"></i> */}
+                  <span className="text nav-text">{username}</span>
                 </Link>
               </li>
               <li>

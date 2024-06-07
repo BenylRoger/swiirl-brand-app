@@ -1,6 +1,6 @@
 @media only screen and (max-width: 768px) {
   /* Adjust styles for smaller screens */
-  .image-container,
+  .image-container-1,
   .image-details {
     max-width: 100%; /* Adjust the max-width to take full width */
   }
@@ -44,7 +44,7 @@
   margin-bottom: 20px; /* Add spacing between rows */
 }
 
-.image-container {
+.image-container-1 {
   width: 100%; /* Take full width */
 
   align-items: center;
@@ -52,7 +52,7 @@
   margin-top: 35px;
 }
 
-.image-container img {
+.image-container-1 img {
   width: 75%;
   height: auto;
 }
@@ -88,10 +88,6 @@
 
 .content-container {
   width: 100%; /* Take full width */
-}
-.prompt-container {
-  width: 100%; /* Take full width */
-  margin-top: 8px;
 }
 
 .horizontal-line {
@@ -144,7 +140,17 @@
 
   font-size: 14px;
   color: #333;
-  border-radius: var(--radius-xl, 12px);
+  border-radius: var(--radius-xl, 5px);
+  background: rgba(83, 56, 158, 0.1);
+  min-height: 60px;
+}
+
+.tag-small {
+  padding: 5px 10px;
+
+  font-size: 14px;
+  color: #333;
+  border-radius: var(--radius-xl, 5px);
   background: rgba(83, 56, 158, 0.1);
 }
 
@@ -168,6 +174,10 @@
   margin-top: 15px;
   width: 100%;
 }
+/* .prompt-container {
+  width: 100%;
+  margin-top: 8px;
+} */
 
 .caption-details-image {
   margin-top: 5px;
@@ -195,4 +205,39 @@
   display: block;
   margin: 0 auto; /* This centers the image horizontally */
   text-align: center;
+}
+
+.prompt-container {
+  width: 100%; /* Take full width */
+  margin-top: 8px;
+}
+.button-area {
+  width: 100%; /* Take full width */
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center children horizontally */
+  margin-top: 1rem;
+}
+
+.button-primary-sw {
+  width: 156.28px;
+  height: 41.92px;
+  padding-top: 10.46px;
+  padding-bottom: 10.46px;
+  background: #7f56d9;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+  border: 1.05px #7f56d9 solid;
+  gap: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+  display: flex;
+  justify-content: center; /* Center text horizontally */
+  align-items: center; /* Center text vertically */
+  color: white;
+  font-size: 14px;
+  font-family: "Inter", Helvetica;
+  font-weight: 600;
+  line-height: 20px;
+  word-wrap: break-word;
 }
