@@ -7,11 +7,8 @@ import MediaTypeIcon from "../icons/Mediatype";
 import FileIcon from "../icons/Files";
 import TargetLocationIcon from "../icons/TargetLocation";
 import { useSelector } from "react-redux";
-import AWS from "../Awsconfig";
 
 import { Link } from "react-router-dom";
-
-const s3 = new AWS.S3();
 
 const CommissionGrid = () => {
   const [commissions, setCommissions] = useState([]);
@@ -39,30 +36,51 @@ const CommissionGrid = () => {
   useEffect(() => {
     const fetchImageUrls = async () => {
       try {
-        if (!commissions.length) return;
+        // Check if there are any commissions
+        if (!commissions.length) {
+          console.log("No commissions available");
+          return;
+        }
 
+        // Get the latest commission
         const latestCommission = commissions[commissions.length - 1];
-        if (!latestCommission.filenames) return;
 
+        // Check if filenames are available in the latest commission
+        if (!latestCommission.filenames) {
+          console.log("No filenames available in the latest commission");
+          return;
+        }
+
+        // Extract commission name and filenames
         const commissionName = latestCommission.name;
         const filenames = latestCommission.filenames
           .split(",")
           .map((file) => file.trim());
 
+        // Fetch signed URLs for each filename
         const imageUrls = await Promise.all(
           filenames.map(async (file) => {
-            const url = await s3.getSignedUrlPromise("getObject", {
-              Bucket: "swiirl-brand-app-images",
-              Key: `${commissionName}/${file}`,
-              Expires: 60 * 60,
-            });
-            console.log("url", url);
-            return url;
+            try {
+              const response = await fetch(
+                `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionName}/${file}`
+              );
+              if (!response.ok) {
+                throw new Error("Failed to fetch signed URL");
+              }
+              const data = await response.json();
+              console.log("Signed URL fetched successfully", data);
+              return data.signedUrl;
+            } catch (error) {
+              console.error("Error fetching signed URL for file", file, error);
+              // Return a fallback URL if an error occurs
+              return "/home/Image_not_available1.jpg";
+            }
           })
         );
 
+        // Update state with the image URLs
         setImageUrls(imageUrls);
-        console.log(imageUrls);
+        console.log("Image URLs:", imageUrls);
       } catch (error) {
         console.error("Error fetching image URLs", error);
       }

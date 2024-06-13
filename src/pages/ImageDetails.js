@@ -3,30 +3,10 @@ import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ImageDetails.css";
 import useAsticaNLPAPI from "../services/fetch_asticaGPT";
-import AWS from "../Awsconfig";
 
 const getModeration = (moderate) => {
   // Implement your moderation logic here
   return moderate ? "Moderated" : "Not Moderated";
-};
-
-const s3 = new AWS.S3();
-
-const getSignedUrl = async (key) => {
-  console.log("key", key);
-  const params = {
-    Bucket: "swiirl-brand-app-images",
-    Key: key,
-  };
-  try {
-    const data = await s3.getObject(params).promise();
-    console.log("data", data);
-    const imageUrl = `data:image/jpeg;base64,${data.Body.toString("base64")}`;
-    return imageUrl;
-  } catch (error) {
-    console.error("Error getting signed URL from S3", error);
-    return "/home/Image_not_available1.jpg"; // Fallback image
-  }
 };
 
 function ImageDetail() {
@@ -48,18 +28,45 @@ function ImageDetail() {
   useEffect(() => {
     const fetchImageUrls = async () => {
       try {
-        const url = await getSignedUrl(`${commissionname}/${image.imagename}`); // Pass the image URL directly
-        console.log(url);
-        const imageUrl = {
-          ...image,
-          url: url,
-          alt: image.alt || "No image available",
-        };
-        setImageUrl(imageUrl);
+        // Check if commission name and image are available
+        if (!commissionname || !image) {
+          console.log("Commission name or image not provided");
+          return;
+        }
+
+        // Check if the image has a valid name
+        if (!image.imagename) {
+          console.log("Image name not provided");
+          return;
+        }
+
+        // Make the API call to fetch the signed URL
+        const response = await fetch(
+          `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionname}/${image.imagename}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          const url = data.signedUrl;
+          console.log("Signed URL fetched successfully:", url);
+
+          // Construct the image URL object
+          const imageUrl = {
+            ...image,
+            url: url,
+            alt: image.alt || "No image available",
+          };
+
+          // Update state with the image URL
+          setImageUrl(imageUrl);
+        } else {
+          console.error("Failed to fetch signed URL:", response.statusText);
+        }
       } catch (error) {
         console.error("Error fetching signed URL:", error);
       }
     };
+
     fetchImageUrls();
   }, [image, commissionname]);
 

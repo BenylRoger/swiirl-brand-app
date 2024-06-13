@@ -6,12 +6,33 @@ function ImageGallery() {
   const [imageData, setImageData] = useState([]);
 
   useEffect(() => {
-    // Simulate fetching data from an API or local JSON file
     const fetchData = async () => {
-      //   const response = await fetch("your_image_data.json"); // Replace with your JSON data path
-      //   const data = await response.json();
-      const imageData = require("../data/images.json");
-      setImageData(imageData);
+      try {
+        const response = await fetch(
+          "https://mc54wwmd2jqfhvis2huj46wl240ilczp.lambda-url.us-east-1.on.aws/?isdefault=true"
+        );
+        const data = await response.json();
+
+        const imageDataWithSignedUrls = await Promise.all(
+          data.map(async (image) => {
+            const signedUrlResponse = await fetch(
+              `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=default/${encodeURIComponent(
+                image.imagename
+              )}`
+            );
+            const signedUrlData = await signedUrlResponse.json();
+
+            return {
+              ...image,
+              signedUrl: signedUrlData.signedUrl,
+            };
+          })
+        );
+
+        setImageData(imageDataWithSignedUrls);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     fetchData();
@@ -27,14 +48,14 @@ function ImageGallery() {
           key={index}
           style={{
             flex: "0 0 auto",
-            maxWidth: "33%",
+            maxWidth: "32%",
             marginBottom: "1rem",
             minWidth: "25%",
           }}
         >
           <img
-            src={image.url}
-            alt={image.alt || "Image"}
+            src={image.signedUrl}
+            alt={image.description || "Image"}
             className="img-fluid"
             style={{ width: "100%", height: "auto", maxHeight: "400px" }}
           />

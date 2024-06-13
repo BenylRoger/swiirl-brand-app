@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import AWS from "../Awsconfig";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-const s3 = new AWS.S3();
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const CommissionDetailPage = () => {
   const { id } = useParams();
@@ -55,20 +53,28 @@ const CommissionDetailPage = () => {
   };
 
   const handleUploadToS3 = async (file) => {
-    const params = {
-      Bucket: "swiirl-brand-app-images",
-      Key: `${commission.name}/${file.name}`,
-      Body: file,
-      ContentType: file.type,
-    };
+    console.log("file", file);
+    const formData = new FormData();
 
-    try {
-      const data = await s3.upload(params).promise();
-      return data.Location; // URL of the uploaded file
-    } catch (error) {
-      console.error("Error uploading to S3", error);
-      setErrorMessage("Error uploading to S3");
-      throw error;
+    formData.append("bucketName", "swiirl-brand-app-images");
+    formData.append("keyName", `${commission.name}/${file.name}`);
+    formData.append("file", file);
+
+    const response = await fetch(
+      "https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/",
+      {
+        method: "PUT",
+
+        body: formData,
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("File uploaded successfully", result);
+      return result;
+    } else {
+      console.error("File upload failed", response.statusText);
     }
   };
 
@@ -87,20 +93,26 @@ const CommissionDetailPage = () => {
       const fileUploadPromises = selectedFiles.map(handleUploadToS3);
       console.log(fileUploadPromises);
       const fileUrls = await Promise.all(fileUploadPromises);
-      console.log(fileUrls);
+      console.log("fileUrls", fileUrls);
+      // Map over the resolved promises and extract the 'fileurl' property
+      const fileUrlList = fileUrls.map(
+        (resolvedPromise) => resolvedPromise.fileurl
+      );
+
+      console.log("Benyl", fileUrlList);
       const fileNames = selectedFiles.map((file) => file.name);
       console.log(fileNames);
       // Assuming commission object has a files property
       const updatedCommission = {
         ...commission,
-        files: fileUrls.join(", "),
+        files: fileUrlList.join(", "),
         filenames: fileNames.join(", "),
       };
       setCommission(updatedCommission);
 
       // Upload to API
       for (let i = 0; i < fileUrls.length; i++) {
-        const imageUrl = fileUrls[i];
+        const imageUrl = fileUrlList[i];
         const filename = fileNames[i];
         console.log(filename);
         await axios.post(
