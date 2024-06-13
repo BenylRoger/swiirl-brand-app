@@ -160,6 +160,7 @@
   font-weight: 500;
   line-height: 20px;
   margin-bottom: 5px;
+  padding: 5px;
 }
 .hr-shadow {
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import AWS from "../Awsconfig";
+
 import "./CreateCommissionForm.css"; // Import CSS file
 import UploadIcon from "../icons/upload";
 import { useSelector } from "react-redux";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const s3 = new AWS.S3();
-
 const CreateCommissionForm = () => {
-  const [formData, setFormData] = useState({
+  const [formCommData, setFormData] = useState({
     name: "",
     target_location: "",
     timeline: "",
@@ -17,13 +16,15 @@ const CreateCommissionForm = () => {
     campaign_goal: "",
     creative_design: "",
     themes_prompts: "",
+    links: "",
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
   const username = useSelector((state) => state.user.username);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formCommData, [name]: value });
   };
 
   const handleFileChange = (event) => {
@@ -36,21 +37,27 @@ const CreateCommissionForm = () => {
   };
 
   const uploadToS3 = async (file) => {
-    const params = {
-      Bucket: "swiirl-brand-app-images",
+    console.log("file", file);
+    const formData = new FormData();
 
-      Key: `${formData.name}/sample_${file.name}`,
+    formData.append("bucketName", "swiirl-brand-app-images");
+    formData.append("keyName", `${formCommData.name}/sample_${file.name}`);
+    formData.append("file", file);
 
-      Body: file,
-      ContentType: file.type,
-    };
+    const response = await fetch(
+      "https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/",
+      {
+        method: "PUT",
 
-    try {
-      const data = await s3.upload(params).promise();
-      return data.Location; // URL of the uploaded file
-    } catch (error) {
-      console.error("Error uploading to S3", error);
-      throw error;
+        body: formData,
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log("File uploaded successfully", result);
+    } else {
+      console.error("File upload failed", response.statusText);
     }
   };
 
@@ -58,11 +65,13 @@ const CreateCommissionForm = () => {
     event.preventDefault();
 
     try {
+      console.log("selectedFiles", selectedFiles);
       const fileUploadPromises = selectedFiles.map(uploadToS3);
       const fileUrls = await Promise.all(fileUploadPromises);
+
       const fileNames = selectedFiles.map((file) => "sample_" + file.name);
       const requestBody = {
-        ...formData,
+        ...formCommData,
         filenames: fileNames.join(", "),
         files: fileUrls.join(", "), // Join file URLs with commas
         createdby: username, // Hardcoded value
@@ -126,22 +135,11 @@ const CreateCommissionForm = () => {
               type="text"
               className="form-control-input"
               name="name"
-              value={formData.name}
+              value={formCommData.name}
               onChange={handleChange}
               placeholder="Let’s give the school details for their new assignment"
             />
           </div>
-          {/* <div className="form-group">
-            <label className="form-label text-md-end">Target Locations</label>
-            <input
-              type="text"
-              className="form-control-input"
-              name="target_location"
-              value={formData.target_location}
-              onChange={handleChange}
-              placeholder="Preferred impact regions"
-            />
-          </div> */}
         </div>
         <div className="form-row">
           <div className="form-group">
@@ -149,7 +147,7 @@ const CreateCommissionForm = () => {
             <textarea
               className="form-control-textarea"
               name="target_location"
-              value={formData.target_location}
+              value={formCommData.target_location}
               onChange={handleChange}
               placeholder="Preferred impact regions"
             />
@@ -160,7 +158,7 @@ const CreateCommissionForm = () => {
               type="text"
               className="form-control-input"
               name="timeline"
-              value={formData.timeline}
+              value={formCommData.timeline}
               onChange={handleChange}
               placeholder="Start, deadline, review"
             />
@@ -169,7 +167,7 @@ const CreateCommissionForm = () => {
               type="text"
               className="form-control-input"
               name="mediatype"
-              value={formData.mediatype}
+              value={formCommData.mediatype}
               onChange={handleChange}
               placeholder="Photography"
             />
@@ -183,7 +181,7 @@ const CreateCommissionForm = () => {
             <textarea
               className="form-control-textarea"
               name="content_usage"
-              value={formData.content_usage}
+              value={formCommData.content_usage}
               onChange={handleChange}
               placeholder="E.g. social media campaigns, annual sustainability report, signage for event and retail, etc."
             />
@@ -195,7 +193,7 @@ const CreateCommissionForm = () => {
             <textarea
               className="form-control-textarea"
               name="campaign_goal"
-              value={formData.campaign_goal}
+              value={formCommData.campaign_goal}
               onChange={handleChange}
               placeholder="E.g. raise awareness of the importance of sustainable living practices. What does sustainability mean for different communities?"
             />
@@ -207,7 +205,7 @@ const CreateCommissionForm = () => {
             <textarea
               className="form-control-textarea"
               name="creative_design"
-              value={formData.creative_design}
+              value={formCommData.creative_design}
               onChange={handleChange}
               placeholder="E.g. use of earthy tones and natural colors is encouraged. No harmful content or disturbing images."
             />
@@ -217,7 +215,7 @@ const CreateCommissionForm = () => {
             <textarea
               className="form-control-textarea"
               name="themes_prompts"
-              value={formData.themes_prompts}
+              value={formCommData.themes_prompts}
               onChange={handleChange}
               placeholder="E.g. What does ”Leaving the world better than you found it” mean to you?"
             />
@@ -233,7 +231,7 @@ const CreateCommissionForm = () => {
                 onChange={handleFileChange}
               />
               <div className="uploadicon">
-                <UploadIcon /> {/* Or your SVG element */}
+                <UploadIcon />
               </div>
               <div className="upload-options">
                 <p className="click">Click to upload</p>
@@ -268,7 +266,7 @@ const CreateCommissionForm = () => {
             <textarea
               className="form-control-textarea"
               name="links"
-              value={formData.links}
+              value={formCommData.links}
               onChange={handleChange}
               placeholder="Provide any relevant links"
             />

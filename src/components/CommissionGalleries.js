@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CommissionGalleries.css";
-import AWS from "../Awsconfig";
-
-const s3 = new AWS.S3();
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -46,15 +43,24 @@ function CommissionGalleries() {
       try {
         const urls = await Promise.all(
           imageData.map(async (image) => {
-            const url = await s3.getSignedUrlPromise("getObject", {
-              Bucket: "swiirl-brand-app-images",
-              Key: `${commissionname}/${image.imagename}`,
-              Expires: 60 * 60,
-            });
-            return url;
+            // Make the API call to fetch the signed URL
+            const response = await fetch(
+              `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionname}/${image.imagename}`
+            );
+
+            if (response.ok) {
+              const data = await response.json();
+              const url = data.signedUrl;
+              console.log("Signed URL fetched successfully:", url);
+              return url;
+            } else {
+              console.error("Failed to fetch signed URL:", response.statusText);
+              return null; // Return null if there's an error
+            }
           })
         );
-        setImageUrls(urls);
+
+        setImageUrls(urls.filter((url) => url !== null)); // Filter out null values
       } catch (error) {
         console.error("Error fetching image URLs", error);
       }

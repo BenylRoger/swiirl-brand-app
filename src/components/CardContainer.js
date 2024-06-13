@@ -1,52 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import "./CardContainer.css";
-import AWS from "../Awsconfig";
-
-const s3 = new AWS.S3();
-
-const getSignedUrl = async (key) => {
-  console.log("key", key);
-  const params = {
-    Bucket: "swiirl-brand-app-images",
-    Key: key,
-  };
-  try {
-    const data = await s3.getObject(params).promise();
-    console.log("data", data);
-    const imageUrl = `data:image/jpeg;base64,${data.Body.toString("base64")}`;
-    return imageUrl;
-  } catch (error) {
-    console.error("Error getting signed URL from S3", error);
-    return "/home/Image_not_available1.jpg"; // Fallback image
-  }
-};
 
 function Card({ images, title, description, commissionid, isFirst }) {
   const [imageUrls, setImageUrls] = useState([]);
-  console.log(images);
-  console.log(title);
-  console.log(description);
-  console.log(commissionid);
-  console.log(isFirst);
 
   useEffect(() => {
     const fetchImageUrls = async () => {
       const urls = await Promise.all(
-        images.map(async (image) => ({
-          ...image,
-          url: await getSignedUrl(`${title}/${image.imagename}`), // Pass the image URL directly
-          alt: image.alt || "No image available",
-        }))
+        [...images]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, 5)
+          .map(async (image) => {
+            // Only take the first 5 images
+            try {
+              const response = await fetch(
+                `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${title}/${image.imagename}`
+              );
+              if (!response.ok) {
+                throw new Error("Failed to fetch signed URL");
+              }
+              const data = await response.json();
+              return {
+                ...image,
+                url: data.signedUrl, // Assuming the response contains the signed URL
+                alt: image.alt || "No image available",
+              };
+            } catch (error) {
+              console.error("Error fetching signed URL", error);
+              return {
+                ...image,
+                url: "/home/Image_not_available1.jpg",
+                alt: "No image available",
+              };
+            }
+          })
       );
-      console.log(urls);
       setImageUrls(urls);
     };
     fetchImageUrls();
   }, [images, title]);
+  let count = isFirst ? 5 : 3;
 
-  while (imageUrls.length < 3) {
+  while (imageUrls.length < count) {
+    // Ensure there are always 5 images
     imageUrls.push({
       url: "/home/Image_not_available1.jpg",
       alt: "No image available",
