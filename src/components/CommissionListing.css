@@ -111,3 +111,16 @@
   gap: 2.09px;
   display: inline-flex;
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader-middle {
+  display: block;
+  margin: 0 auto; /* This centers the image horizontally */
+  text-align: center;
+}

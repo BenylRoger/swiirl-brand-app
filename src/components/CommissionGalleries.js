@@ -10,6 +10,7 @@ const useQuery = () => {
 function CommissionGalleries() {
   const [imageData, setImageData] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const query = useQuery();
   const commissionid = query.get("commissionid");
   const commissionname = query.get("commissionname");
@@ -17,12 +18,12 @@ function CommissionGalleries() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `https://yv5njvks2xbquqciiauvn6bfj40ibxav.lambda-url.us-east-1.on.aws/?commissionid=${commissionid}`
         );
         const data = await response.json();
-        // Convert comma-separated tags string to an array
         const processedData = data.map((image) => ({
           ...image,
           tags: image.tags.split(",").map((tag) => tag.trim()),
@@ -30,6 +31,8 @@ function CommissionGalleries() {
         setImageData(processedData);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -40,27 +43,32 @@ function CommissionGalleries() {
 
   useEffect(() => {
     const fetchImageUrls = async () => {
+      const fetchUrl = async (image) => {
+        try {
+          const cachedUrl = sessionStorage.getItem(image.imagename);
+          if (cachedUrl) {
+            return cachedUrl;
+          }
+          const response = await fetch(
+            `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionname}/${image.imagename}`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch signed URL");
+          }
+          const data = await response.json();
+          sessionStorage.setItem(image.imagename, data.signedUrl);
+          return data.signedUrl;
+        } catch (error) {
+          console.error("Error fetching signed URL:", error);
+          return null;
+        }
+      };
+
       try {
         const urls = await Promise.all(
-          imageData.map(async (image) => {
-            // Make the API call to fetch the signed URL
-            const response = await fetch(
-              `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionname}/${image.imagename}`
-            );
-
-            if (response.ok) {
-              const data = await response.json();
-              const url = data.signedUrl;
-              console.log("Signed URL fetched successfully:", url);
-              return url;
-            } else {
-              console.error("Failed to fetch signed URL:", response.statusText);
-              return null; // Return null if there's an error
-            }
-          })
+          imageData.map((image) => fetchUrl(image))
         );
-
-        setImageUrls(urls.filter((url) => url !== null)); // Filter out null values
+        setImageUrls(urls.filter((url) => url !== null));
       } catch (error) {
         console.error("Error fetching image URLs", error);
       }
@@ -74,6 +82,20 @@ function CommissionGalleries() {
   const handleImageClick = (image) => {
     navigate("/image-details", { state: { image, commissionname } });
   };
+
+  if (isLoading) {
+    return (
+      <div className="loader-container">
+        <div className="loader">
+          <img
+            src="/Loader/Loader.svg"
+            className="loader-middle"
+            alt="Loading"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container-gallery">
@@ -109,8 +131,9 @@ function CommissionGalleries() {
             <img
               src={imageUrl}
               alt={imageData[index].alt || "Image"}
-              className="img-fluid"
+              className="img-fluid lazyload"
               style={{ width: "100%", height: "auto", maxHeight: "400px" }}
+              loading="lazy"
             />
             <div style={{ marginTop: "0.5rem" }}>
               {imageData[index].tags && imageData[index].tags.length > 0 && (

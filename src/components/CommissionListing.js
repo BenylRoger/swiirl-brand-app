@@ -6,7 +6,9 @@ import CardContainer from "./CardContainer";
 
 function CommissionListing() {
   const [cards, setCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State for loader
   const username = useSelector((state) => state.user.username);
+
   useEffect(() => {
     // Fetch data from the API
     fetch(
@@ -37,21 +39,36 @@ function CommissionListing() {
 
         // Convert grouped commissions into array
         const transformedCards = Object.values(groupedCommissions);
-        console.log(transformedCards);
         setCards(transformedCards);
+        setIsLoading(false); // Hide loader after data is fetched and processed
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setIsLoading(false); // Hide loader even if there is an error
+      });
   }, [username]);
 
   return (
     <div>
-      <div className="intro-commission">
-        <div className="new-symbol">NEW</div>
-        <div className="new-commission-text">
-          Your latest commission is here!
+      {isLoading ? (
+        <div className="loader-container">
+          <img
+            src="/Loader/Loader.svg"
+            className="loader-middle"
+            alt="Loading"
+          />
         </div>
-      </div>
-      <CardContainer cards={cards} />
+      ) : (
+        <>
+          <div className="intro-commission">
+            <div className="new-symbol">NEW</div>
+            <div className="new-commission-text">
+              Your latest commission is here!
+            </div>
+          </div>
+          <CardContainer cards={cards} />
+        </>
+      )}
     </div>
   );
 }

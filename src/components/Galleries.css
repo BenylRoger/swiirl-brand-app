@@ -20,3 +20,16 @@
   font-weight: 500;
   line-height: 20px; /* 142.857% */
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader-middle {
+  display: block;
+  margin: 0 auto; /* This centers the image horizontally */
+  text-align: center;
+}
