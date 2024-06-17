@@ -97,6 +97,12 @@ function CommissionGalleries() {
     );
   }
 
+  // Divide images into 3 columns
+  const columns = [[], [], []];
+  imageUrls.forEach((imageUrl, index) => {
+    columns[index % 3].push({ url: imageUrl, data: imageData[index] });
+  });
+
   return (
     <div className="container-gallery">
       <div className="heading-content">
@@ -107,45 +113,32 @@ function CommissionGalleries() {
         />
         <div className="campaign-name">{commissionname}</div>
       </div>
-      <div
-        className="image-container p-5"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1rem",
-          justifyContent: "left",
-        }}
-      >
-        {imageUrls.map((imageUrl, index) => (
-          <div
-            key={index}
-            style={{
-              flex: "0 0 auto",
-              maxWidth: "32%",
-              marginBottom: "1rem",
-              minWidth: "25%",
-              cursor: "pointer",
-            }}
-            onClick={() => handleImageClick(imageData[index])}
-          >
-            <img
-              src={imageUrl}
-              alt={imageData[index].alt || "Image"}
-              className="img-fluid lazyload"
-              style={{ width: "100%", height: "auto", maxHeight: "400px" }}
-              loading="lazy"
-            />
-            <div style={{ marginTop: "0.5rem" }}>
-              {imageData[index].tags && imageData[index].tags.length > 0 && (
-                <ul className="list-inline">
-                  {imageData[index].tags.map((tag, tagIndex) => (
-                    <li key={tagIndex} className="list-inline-item">
-                      <span className="tags">{tag}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+      <div className="image-container1 p-5">
+        {columns.map((column, colIndex) => (
+          <div className="column" key={colIndex}>
+            {column.map(({ url, data }, index) => (
+              <div
+                key={index}
+                className="image-item"
+                onClick={() => handleImageClick(data)}
+              >
+                <img
+                  src={url}
+                  alt={data.alt || "Image"}
+                  className="img-fluid lazyload"
+                  loading="lazy"
+                />
+                {data.tags && data.tags.length > 0 && (
+                  <ul className="list-inline">
+                    {data.tags.map((tag, tagIndex) => (
+                      <li key={tagIndex} className="list-inline-item">
+                        <span className="tags">{tag}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
           </div>
         ))}
       </div>
