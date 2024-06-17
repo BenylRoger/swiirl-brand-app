@@ -78,7 +78,7 @@ const CreateCommissionForm = () => {
       const requestBody = {
         ...formCommData,
         filenames: fileNames.join(", "),
-        files: fileUrls.join(", "), // Join file URLs with commas
+        files: fileUrls.map((file) => file.fileurl).join(","), // Join file URLs with commas
         createdby: username,
         createdon: new Date().toISOString(),
         status: "In Progress",

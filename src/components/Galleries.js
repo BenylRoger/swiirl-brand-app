@@ -57,9 +57,17 @@ function ImageGallery() {
 
     fetchData();
   }, []);
+  const columns = [[], [], []]; // Three columns
 
+  // Distribute images equally among the columns
+  imageData.forEach((image, index) => {
+    columns[index % 3].push(image);
+  });
   return (
-    <div className="image-container p-5" style={{ position: "relative" }}>
+    <div
+      className="default-image-container p-5"
+      style={{ position: "relative" }}
+    >
       {isLoading ? (
         <div className="loader-container">
           <img
@@ -69,34 +77,18 @@ function ImageGallery() {
           />
         </div>
       ) : (
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-          {imageData.map((image, index) => (
-            <div
-              key={index}
-              style={{
-                flex: "0 0 auto",
-                maxWidth: "32%",
-                marginBottom: "1rem",
-                minWidth: "25%",
-              }}
-            >
-              <img
-                src={image.signedUrl}
-                alt={image.description || "Image"}
-                className="img-fluid"
-                style={{ width: "100%", height: "auto", maxHeight: "400px" }}
-              />
-              <div style={{ marginTop: "0.5rem" }}>
-                {image.tags && image.tags.length > 0 && (
-                  <ul className="list-inline">
-                    {image.tags.map((tag, tagIndex) => (
-                      <li key={tagIndex} className="list-inline-item">
-                        <span className="tags">{tag}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+        <div className="parent">
+          {columns.map((column, colIndex) => (
+            <div className="column" key={colIndex}>
+              {column.map((image, index) => (
+                <div className="image-container1" key={index}>
+                  <img
+                    src={image.signedUrl}
+                    alt={image.description || "Image"}
+                    className="img-fluid"
+                  />
+                </div>
+              ))}
             </div>
           ))}
         </div>
