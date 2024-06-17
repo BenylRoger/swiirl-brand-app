@@ -108,16 +108,19 @@ function Card({ images, title, description, commissionid, isFirst }) {
 function CardContainer({ cards }) {
   return (
     <div className="card-container">
-      {cards.length > 1 && <div className="gallery-label">Your Galleries</div>}
       {cards.map((card, index) => (
-        <Card
-          key={index}
-          images={card.images}
-          title={card.name}
-          description={`${card.campaign_goal}`}
-          commissionid={card.id}
-          isFirst={index === 0}
-        />
+        <React.Fragment key={index}>
+          <Card
+            images={card.images}
+            title={card.name}
+            description={`${card.campaign_goal}`}
+            commissionid={card.id}
+            isFirst={index === 0}
+          />
+          {index === 0 && cards.length > 1 && (
+            <div className="gallery-label">Your Galleries</div>
+          )}
+        </React.Fragment>
       ))}
     </div>
   );
