@@ -21,7 +21,7 @@
   border: 1px solid #cccccc57;
   position: absolute;
   /* top: 200px; */
-  left: 25px;
+  left: 40px;
   bottom: -50px;
 }
 
@@ -88,7 +88,7 @@
   display: flex;
   gap: 25px;
   justify-content: right;
-  margin-right: 65px;
+  margin-right: 40px;
 }
 
 .Cta {

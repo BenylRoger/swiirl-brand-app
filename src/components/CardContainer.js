@@ -14,7 +14,7 @@ function Card({ images, title, description, commissionid, isFirst }) {
       const urls = await Promise.all(
         [...images]
           .sort(() => Math.random() - 0.5)
-          .slice(0, 5)
+          .slice(0, 6)
           .map(async (image) => {
             try {
               const cachedUrl = sessionStorage.getItem(image.imagename);
@@ -59,7 +59,7 @@ function Card({ images, title, description, commissionid, isFirst }) {
     fetchImageUrls();
   }, [images, title]);
 
-  let count = isFirst ? 5 : 3;
+  let count = isFirst ? 6 : 3;
 
   while (imageUrls.length < count) {
     imageUrls.push({
@@ -78,14 +78,60 @@ function Card({ images, title, description, commissionid, isFirst }) {
       >
         <div className={cardClassName}>
           <div className="card-images">
-            {imageUrls.map((image, index) => (
-              <img
-                key={index}
-                src={image.url}
-                alt={image.alt}
-                className="card-image"
-              />
-            ))}
+            <div className="column-full">
+              {imageUrls[0] && (
+                <img
+                  src={imageUrls[0].url}
+                  alt={imageUrls[0].alt || "Image"}
+                  className="card-image"
+                />
+              )}
+            </div>
+            <div className="column-half">
+              {imageUrls[1] && (
+                <img
+                  src={imageUrls[1].url}
+                  alt={imageUrls[1].alt || "Image"}
+                  className="card-image-half"
+                />
+              )}
+              {imageUrls[2] && (
+                <img
+                  src={imageUrls[2].url}
+                  alt={imageUrls[2].alt || "Image"}
+                  className="card-image-half"
+                />
+              )}
+            </div>
+            {isFirst && (
+              <>
+                <div className="column-full">
+                  {imageUrls[3] && (
+                    <img
+                      src={imageUrls[3].url}
+                      alt={imageUrls[3].alt || "Image"}
+                      className="card-image"
+                    />
+                  )}
+                </div>
+                <div className="column-half">
+                  {imageUrls[4] && (
+                    <img
+                      src={imageUrls[4].url}
+                      alt={imageUrls[4].alt || "Image"}
+                      className="card-image-half"
+                    />
+                  )}
+                  {imageUrls[5] && (
+                    <img
+                      src={imageUrls[5].url}
+                      alt={imageUrls[5].alt || "Image"}
+                      className="card-image-half"
+                    />
+                  )}
+                </div>
+              </>
+            )}
           </div>
 
           <div className="card-content">

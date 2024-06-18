@@ -218,7 +218,6 @@ tbody .odd-row {
   display: flex;
   gap: 25px;
   justify-content: right;
-  /* margin-right: 40px; */
 }
 
 .previous-button {
