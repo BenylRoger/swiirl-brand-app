@@ -1,9 +1,9 @@
 /* Card Container */
 .card-container {
   display: flex;
-  justify-content: center;
+
   align-items: center;
-  gap: 20px; /* Space between cards */
+
   padding: 5px 20px;
   flex-wrap: wrap; /* Allows wrapping on smaller screens */
 }
@@ -95,7 +95,7 @@
   font-weight: 600;
   line-height: 28px; /* 100% */
   width: 100%;
-  margin: 20px;
+  margin: 10px 20px;
 }
 
 .avatar-image {

@@ -130,7 +130,7 @@ const CommissionGrid = () => {
       <div className="col-lg-12 mb-3">
         <div className="row align-items-center">
           <div className="col-lg-12 d-flex justify-content-between align-items-center">
-            <h2 style={{ margin: 0 }}>Commissions</h2>
+            <div className="heading-text">Commissions</div>
 
             <div className="button-placement1">
               <Link to="/commissions/create" style={{ textDecoration: "none" }}>
@@ -317,7 +317,7 @@ const CommissionGrid = () => {
       <div className="table-responsive">
         <table>
           <thead>
-            <tr>
+            <tr className="font-style-grid">
               <th>ID</th>
               <th>Name</th>
               <th>Target Location</th>
@@ -333,7 +333,11 @@ const CommissionGrid = () => {
             {currentItems.map((commission, index) => (
               <tr
                 key={commission.id}
-                className={index % 2 === 0 ? "even-row" : "odd-row"}
+                className={
+                  index % 2 === 0
+                    ? "even-row font-style-grid"
+                    : "odd-row font-style-grid"
+                }
               >
                 <td>{commission.id}</td>
                 <td>{commission.name}</td>
