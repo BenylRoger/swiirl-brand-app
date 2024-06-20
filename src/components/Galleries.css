@@ -20,3 +20,69 @@
   font-weight: 500;
   line-height: 20px; /* 142.857% */
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader-middle {
+  display: block;
+  margin: 0 auto; /* This centers the image horizontally */
+  text-align: center;
+  align-content: flex-start; /* Align rows to top */
+}
+/* .parent {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.parent > * {
+  flex: 0 0 calc(100% / 3.5 - 1rem);
+  overflow: hidden;
+}
+
+.parent > img {
+  object-fit: contain;
+  width: 100%;
+} */
+/* .parent {
+  display: grid;
+  grid-column-gap: 24px;
+  grid-row-gap: 15px;
+  align-items: start;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.parent img {
+  max-height: 400px;
+  object-fit: contain;
+  width: 100%;
+} */
+
+.parent {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1; /* Make each column take up equal space */
+}
+
+.image-container1 {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+.image-container1 img {
+  object-fit: cover; /* Maintain aspect ratio and cover */
+  width: 100%; /* Fill the width of the container */
+  height: 100%; /* Fill the height of the container */
+}

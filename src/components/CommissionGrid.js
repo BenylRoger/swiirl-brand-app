@@ -16,6 +16,7 @@ const CommissionGrid = () => {
   const [itemsPerPage] = useState(2);
   const [activeTab, setActiveTab] = useState("basicdetails");
   const [imageUrls, setImageUrls] = useState([]);
+  const [selectedCommission, setSelectedCommission] = useState(null);
 
   const username = useSelector((state) => state.user.username);
   useEffect(() => {
@@ -36,60 +37,45 @@ const CommissionGrid = () => {
   useEffect(() => {
     const fetchImageUrls = async () => {
       try {
-        // Check if there are any commissions
-        if (!commissions.length) {
-          console.log("No commissions available");
+        if (!selectedCommission || !selectedCommission.filenames) {
+          console.log("No filenames available in the selected commission");
           return;
         }
 
-        // Get the latest commission
-        const latestCommission = commissions[commissions.length - 1];
-
-        // Check if filenames are available in the latest commission
-        if (!latestCommission.filenames) {
-          console.log("No filenames available in the latest commission");
-          return;
-        }
-
-        // Extract commission name and filenames
-        const commissionName = latestCommission.name;
-        const filenames = latestCommission.filenames
+        const filenames = selectedCommission.filenames
           .split(",")
           .map((file) => file.trim());
 
-        // Fetch signed URLs for each filename
         const imageUrls = await Promise.all(
           filenames.map(async (file) => {
             try {
               const response = await fetch(
-                `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionName}/${file}`
+                `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${selectedCommission.name}/${file}`
               );
               if (!response.ok) {
                 throw new Error("Failed to fetch signed URL");
               }
               const data = await response.json();
-              console.log("Signed URL fetched successfully", data);
+              console.log(data);
               return data.signedUrl;
             } catch (error) {
               console.error("Error fetching signed URL for file", file, error);
-              // Return a fallback URL if an error occurs
               return "/home/Image_not_available1.jpg";
             }
           })
         );
 
-        // Update state with the image URLs
         setImageUrls(imageUrls);
-        console.log("Image URLs:", imageUrls);
       } catch (error) {
         console.error("Error fetching image URLs", error);
       }
     };
 
-    fetchImageUrls();
-  }, [commissions]);
+    if (selectedCommission) {
+      fetchImageUrls();
+    }
+  }, [selectedCommission]);
 
-  // Calculate the current items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = commissions.slice(indexOfFirstItem, indexOfLastItem);
@@ -130,18 +116,23 @@ const CommissionGrid = () => {
     }
   };
 
-  // Find the latest commission
-  const latestCommission =
-    commissions.length > 0 ? commissions[commissions.length - 1] : null;
+  const handleViewClick = (commission) => {
+    setSelectedCommission(commission);
+    setActiveTab("basicdetails");
+  };
+
+  const commissionToDisplay =
+    selectedCommission ||
+    (commissions.length > 0 ? commissions[commissions.length - 1] : null);
 
   return (
     <div className="grid-container">
       <div className="col-lg-12 mb-3">
         <div className="row align-items-center">
           <div className="col-lg-12 d-flex justify-content-between align-items-center">
-            <h2 style={{ margin: 0 }}>Commissions</h2>
+            <div className="heading-text">Commissions</div>
 
-            <div className="button-placement">
+            <div className="button-placement1">
               <Link to="/commissions/create" style={{ textDecoration: "none" }}>
                 <button className="button-primary-sw">New Commission</button>
               </Link>
@@ -149,21 +140,21 @@ const CommissionGrid = () => {
           </div>
         </div>
       </div>
-      {latestCommission && (
+      {commissionToDisplay && (
         <div className="latest-commission">
           <div className="commission-details">
             <div className="form-row">
               <div className="form-group" style={{ paddingLeft: "10px" }}>
-                <div className="status">{latestCommission.status}</div>
+                <div className="status">{commissionToDisplay.status}</div>
               </div>
             </div>
             <div className="form-row">
               <div className="form-group" style={{ paddingLeft: "10px" }}>
                 <div className="latest-commission-name">
-                  {latestCommission.name}
+                  {commissionToDisplay.name}
                 </div>
                 <div className="latest-commission-name-footer">
-                  {latestCommission.campaign_goal}
+                  {commissionToDisplay.campaign_goal}
                 </div>
               </div>
             </div>
@@ -210,7 +201,7 @@ const CommissionGrid = () => {
                           <div>
                             <strong>Target Location</strong>{" "}
                           </div>
-                          <div>{latestCommission.target_location}</div>
+                          <div>{commissionToDisplay.target_location}</div>
                         </div>
                       </div>
                       <div className="fields">
@@ -219,7 +210,7 @@ const CommissionGrid = () => {
                           <div>
                             <strong>Files</strong>{" "}
                           </div>
-                          <div>{latestCommission.files}</div>
+                          <div>{commissionToDisplay.files}</div>
                         </div>
                       </div>
                     </div>
@@ -232,7 +223,7 @@ const CommissionGrid = () => {
                           </div>
                           <div>
                             {new Date(
-                              latestCommission.timeline
+                              commissionToDisplay.timeline
                             ).toLocaleDateString()}
                           </div>
                         </div>
@@ -243,7 +234,7 @@ const CommissionGrid = () => {
                           <div>
                             <strong>Relevant links</strong>{" "}
                           </div>
-                          <div>{latestCommission.links}</div>
+                          <div>{commissionToDisplay.links}</div>
                         </div>
                       </div>
                     </div>
@@ -255,7 +246,7 @@ const CommissionGrid = () => {
                             <strong>Media Type</strong>{" "}
                           </div>
                           <div style={{ whiteSpace: "pre-wrap" }}>
-                            {latestCommission.mediatype.replace(/,/g, ",\n")}
+                            {commissionToDisplay.mediatype.replace(/,/g, ",\n")}
                           </div>
                         </div>
                       </div>
@@ -276,21 +267,29 @@ const CommissionGrid = () => {
                   <div className="tab-content">
                     <p>
                       <strong>Content Usage:</strong>{" "}
-                      {latestCommission.content_usage}
+                      {commissionToDisplay.content_usage}
+                    </p>
+                    <p>
+                      <strong>Target Audience:</strong>{" "}
+                      {commissionToDisplay.target_audience}
+                    </p>
+                    <p>
+                      <strong>Tags:</strong> {commissionToDisplay.tags}
                     </p>
                     <p>
                       <strong>Campaign Goal:</strong>{" "}
-                      {latestCommission.campaign_goal}
+                      {commissionToDisplay.campaign_goal}
                     </p>
                   </div>
                 )}
                 {activeTab === "format" && (
                   <div className="tab-content">
                     <p>
-                      <strong>Media Type:</strong> {latestCommission.mediatype}
+                      <strong>Media Type:</strong>{" "}
+                      {commissionToDisplay.mediatype}
                     </p>
                     <p>
-                      <strong>Files:</strong> {latestCommission.files}
+                      <strong>Files:</strong> {commissionToDisplay.files}
                     </p>
                   </div>
                 )}
@@ -298,7 +297,7 @@ const CommissionGrid = () => {
                   <div className="tab-content">
                     <p>
                       <strong>Creative Design:</strong>{" "}
-                      {latestCommission.creative_design}
+                      {commissionToDisplay.creative_design}
                     </p>
                   </div>
                 )}
@@ -306,7 +305,7 @@ const CommissionGrid = () => {
                   <div className="tab-content">
                     <p>
                       <strong>Themes Prompts:</strong>{" "}
-                      {latestCommission.themes_prompts}
+                      {commissionToDisplay.themes_prompts}
                     </p>
                   </div>
                 )}
@@ -315,39 +314,51 @@ const CommissionGrid = () => {
           </div>
         </div>
       )}
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Target Location</th>
-            <th>Timeline</th>
-            <th>Media Type</th>
-            <th>Content Usage</th>
-            <th>Created On</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((commission, index) => (
-            <tr
-              key={commission.id}
-              className={index % 2 === 0 ? "even-row" : "odd-row"}
-            >
-              <td>{commission.id}</td>
-              <td>{commission.name}</td>
-              <td>{commission.target_location}</td>
-              <td>{new Date(commission.timeline).toLocaleDateString()}</td>
-              <td style={{ whiteSpace: "pre-wrap" }}>
-                {commission.mediatype.replace(/,/g, ",\n")}
-              </td>
-              <td>{commission.content_usage}</td>
-              <td>{new Date(commission.createdon).toLocaleDateString()}</td>
-              <td>{commission.status}</td>
+      <div className="table-responsive">
+        <table>
+          <thead>
+            <tr className="font-style-grid">
+              <th>ID</th>
+              <th>Name</th>
+              <th>Target Location</th>
+              <th>Timeline</th>
+              <th>Media Type</th>
+              <th>Content Usage</th>
+              <th>Created On</th>
+              <th>Status</th>
+              <th>View</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {currentItems.map((commission, index) => (
+              <tr
+                key={commission.id}
+                className={
+                  index % 2 === 0
+                    ? "even-row font-style-grid"
+                    : "odd-row font-style-grid"
+                }
+              >
+                <td>{commission.id}</td>
+                <td>{commission.name}</td>
+                <td>{commission.target_location}</td>
+                <td>{new Date(commission.timeline).toLocaleDateString()}</td>
+                <td style={{ whiteSpace: "pre-wrap" }}>
+                  {commission.mediatype.replace(/,/g, ",\n")}
+                </td>
+                <td>{commission.content_usage}</td>
+                <td>{new Date(commission.createdon).toLocaleDateString()}</td>
+                <td>{commission.status}</td>
+                <td>
+                  <button onClick={() => handleViewClick(commission)}>
+                    View
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       <div className="pagination-container">
         <button
           className="previous-button"

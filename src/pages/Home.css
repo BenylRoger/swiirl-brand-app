@@ -20,8 +20,9 @@
   align-items: center;
   border: 1px solid #cccccc57;
   position: absolute;
-  top: 200px;
-  left: 25px;
+  /* top: 200px; */
+  left: 40px;
+  bottom: -50px;
 }
 
 .circle img {

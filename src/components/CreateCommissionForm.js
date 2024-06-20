@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-
 import "./CreateCommissionForm.css"; // Import CSS file
 import UploadIcon from "../icons/upload";
 import { useSelector } from "react-redux";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const CreateCommissionForm = () => {
@@ -20,11 +18,18 @@ const CreateCommissionForm = () => {
   });
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const username = useSelector((state) => state.user.username);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formCommData, [name]: value });
+  };
+
+  const handleDateChange = (event) => {
+    const { name, value } = event.target;
+    const date = new Date(value).toISOString();
+    setFormData({ ...formCommData, [name]: date });
   };
 
   const handleFileChange = (event) => {
@@ -39,7 +44,6 @@ const CreateCommissionForm = () => {
   const uploadToS3 = async (file) => {
     console.log("file", file);
     const formData = new FormData();
-
     formData.append("bucketName", "swiirl-brand-app-images");
     formData.append("keyName", `${formCommData.name}/sample_${file.name}`);
     formData.append("file", file);
@@ -48,7 +52,6 @@ const CreateCommissionForm = () => {
       "https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/",
       {
         method: "PUT",
-
         body: formData,
       }
     );
@@ -56,14 +59,16 @@ const CreateCommissionForm = () => {
     if (response.ok) {
       const result = await response.json();
       console.log("File uploaded successfully", result);
+      return result;
     } else {
       console.error("File upload failed", response.statusText);
+      throw new Error("File upload failed");
     }
   };
 
   const handleSubmitCommission = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     try {
       console.log("selectedFiles", selectedFiles);
       const fileUploadPromises = selectedFiles.map(uploadToS3);
@@ -73,10 +78,10 @@ const CreateCommissionForm = () => {
       const requestBody = {
         ...formCommData,
         filenames: fileNames.join(", "),
-        files: fileUrls.join(", "), // Join file URLs with commas
-        createdby: username, // Hardcoded value
-        createdon: new Date().toISOString(), // Current date and time
-        status: "In Progress", // Hardcoded value
+        files: fileUrls.map((file) => file.fileurl).join(","), // Join file URLs with commas
+        createdby: username,
+        createdon: new Date().toISOString(),
+        status: "In Progress",
       };
 
       const response = await fetch(
@@ -109,6 +114,8 @@ const CreateCommissionForm = () => {
       }
     } catch (error) {
       console.error("Error submitting commission", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -155,12 +162,11 @@ const CreateCommissionForm = () => {
           <div className="form-group">
             <label className="form-label text-md-end">Timeline</label>
             <input
-              type="text"
+              type="date"
               className="form-control-input"
               name="timeline"
-              value={formCommData.timeline}
-              onChange={handleChange}
-              placeholder="Start, deadline, review"
+              value={formCommData.timeline.split("T")[0]} // Extracting the date part for display
+              onChange={handleDateChange}
             />
             <label className="form-label">Media Type</label>
             <input
@@ -274,15 +280,19 @@ const CreateCommissionForm = () => {
         </div>
         <div className="form-row">
           <div className="form-group">
-            <button className="button-primary-sw btn-center" type="submit">
-              Submit Commission
+            <button
+              className="button-primary-sw btn-center"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Submitting..." : "Submit Commission"}
             </button>
           </div>
         </div>
         {successMessage && (
           <div className="form-row">
             <div className="login-form-group">
-              <div class="alert alert-success">{successMessage}</div>
+              <div className="alert alert-success">{successMessage}</div>
             </div>
           </div>
         )}

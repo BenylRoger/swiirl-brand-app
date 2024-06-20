@@ -35,19 +35,18 @@
   height: 100%;
   /*  background-color: rgba(0, 0, 0, 0.3); Add opacity with black color */
   opacity: 0; /* Initially hide the overlay */
+  pointer-events: none; /* Allow interactions through the overlay */
   transition: opacity 0.3s ease-in-out;
   /* z-index: 1; /* Ensure overlay sits above other elements */
 }
 
 .overlay.active {
   opacity: 1; /* Show the overlay when sidebar is open */
+  pointer-events: auto; /* Allow interactions with the overlay */
 }
 
 /* Content area styling with overlay */
-.content.overlayed {
-  opacity: 0.8; /* Reduce content area opacity when overlay is active */
-  transition: opacity 0.3s ease-in-out;
-}
+
 /* Basic styles for sidebar and content */
 .sidebar {
   width: 225px;

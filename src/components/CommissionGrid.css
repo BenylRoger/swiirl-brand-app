@@ -214,6 +214,28 @@ tbody .odd-row {
   padding: 10px 30px;
   margin: 0 auto;
 }
+.button-placement1 {
+  display: flex;
+  gap: 25px;
+  justify-content: right;
+}
+
+.heading-text {
+  color: #000;
+  font-family: "Inter", Helvetica;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.font-style-grid {
+  color: #475467;
+  font-family: "Inter", Helvetica;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+}
 
 .previous-button {
   display: flex;

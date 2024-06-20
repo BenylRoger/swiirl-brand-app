@@ -10,6 +10,7 @@ const useQuery = () => {
 function CommissionGalleries() {
   const [imageData, setImageData] = useState([]);
   const [imageUrls, setImageUrls] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const query = useQuery();
   const commissionid = query.get("commissionid");
   const commissionname = query.get("commissionname");
@@ -17,12 +18,12 @@ function CommissionGalleries() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `https://yv5njvks2xbquqciiauvn6bfj40ibxav.lambda-url.us-east-1.on.aws/?commissionid=${commissionid}`
         );
         const data = await response.json();
-        // Convert comma-separated tags string to an array
         const processedData = data.map((image) => ({
           ...image,
           tags: image.tags.split(",").map((tag) => tag.trim()),
@@ -30,6 +31,8 @@ function CommissionGalleries() {
         setImageData(processedData);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -40,27 +43,32 @@ function CommissionGalleries() {
 
   useEffect(() => {
     const fetchImageUrls = async () => {
+      const fetchUrl = async (image) => {
+        try {
+          const cachedUrl = sessionStorage.getItem(image.imagename);
+          if (cachedUrl) {
+            return cachedUrl;
+          }
+          const response = await fetch(
+            `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionname}/${image.imagename}`
+          );
+          if (!response.ok) {
+            throw new Error("Failed to fetch signed URL");
+          }
+          const data = await response.json();
+          sessionStorage.setItem(image.imagename, data.signedUrl);
+          return data.signedUrl;
+        } catch (error) {
+          console.error("Error fetching signed URL:", error);
+          return null;
+        }
+      };
+
       try {
         const urls = await Promise.all(
-          imageData.map(async (image) => {
-            // Make the API call to fetch the signed URL
-            const response = await fetch(
-              `https://h5ptrghgi6dpvnbz5t6njqzrom0uhvkb.lambda-url.us-east-1.on.aws/?action=getSignedUrl&bucketName=swiirl-brand-app-images&keyName=${commissionname}/${image.imagename}`
-            );
-
-            if (response.ok) {
-              const data = await response.json();
-              const url = data.signedUrl;
-              console.log("Signed URL fetched successfully:", url);
-              return url;
-            } else {
-              console.error("Failed to fetch signed URL:", response.statusText);
-              return null; // Return null if there's an error
-            }
-          })
+          imageData.map((image) => fetchUrl(image))
         );
-
-        setImageUrls(urls.filter((url) => url !== null)); // Filter out null values
+        setImageUrls(urls.filter((url) => url !== null));
       } catch (error) {
         console.error("Error fetching image URLs", error);
       }
@@ -75,6 +83,26 @@ function CommissionGalleries() {
     navigate("/image-details", { state: { image, commissionname } });
   };
 
+  if (isLoading) {
+    return (
+      <div className="loader-container">
+        <div className="loader">
+          <img
+            src="/Loader/Loader.svg"
+            className="loader-middle"
+            alt="Loading"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // Divide images into 3 columns
+  const columns = [[], [], []];
+  imageUrls.forEach((imageUrl, index) => {
+    columns[index % 3].push({ url: imageUrl, data: imageData[index] });
+  });
+
   return (
     <div className="container-gallery">
       <div className="heading-content">
@@ -85,44 +113,32 @@ function CommissionGalleries() {
         />
         <div className="campaign-name">{commissionname}</div>
       </div>
-      <div
-        className="image-container p-5"
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1rem",
-          justifyContent: "left",
-        }}
-      >
-        {imageUrls.map((imageUrl, index) => (
-          <div
-            key={index}
-            style={{
-              flex: "0 0 auto",
-              maxWidth: "32%",
-              marginBottom: "1rem",
-              minWidth: "25%",
-              cursor: "pointer",
-            }}
-            onClick={() => handleImageClick(imageData[index])}
-          >
-            <img
-              src={imageUrl}
-              alt={imageData[index].alt || "Image"}
-              className="img-fluid"
-              style={{ width: "100%", height: "auto", maxHeight: "400px" }}
-            />
-            <div style={{ marginTop: "0.5rem" }}>
-              {imageData[index].tags && imageData[index].tags.length > 0 && (
-                <ul className="list-inline">
-                  {imageData[index].tags.map((tag, tagIndex) => (
-                    <li key={tagIndex} className="list-inline-item">
-                      <span className="tags">{tag}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+      <div className="image-container1 p-5">
+        {columns.map((column, colIndex) => (
+          <div className="column" key={colIndex}>
+            {column.map(({ url, data }, index) => (
+              <div
+                key={index}
+                className="image-item"
+                onClick={() => handleImageClick(data)}
+              >
+                <img
+                  src={url}
+                  alt={data.alt || "Image"}
+                  className="img-fluid lazyload"
+                  loading="lazy"
+                />
+                {data.tags && data.tags.length > 0 && (
+                  <ul className="list-inline">
+                    {data.tags.map((tag, tagIndex) => (
+                      <li key={tagIndex} className="list-inline-item">
+                        <span className="tags">{tag}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
           </div>
         ))}
       </div>

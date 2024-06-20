@@ -21,7 +21,7 @@
   text-align: center;
 
   /* Text size and style */
-  font-family: Inter;
+  font-family: "Inter", Helvetica;
   font-size: 14px;
   font-weight: 500;
   line-height: 20px; /* Using a fixed line-height value */
@@ -30,7 +30,7 @@
 
 .new-commission-text {
   color: #000; /* Using a fixed text color */
-  font-family: Inter;
+  font-family: "Inter", Helvetica;
   font-size: 22px;
   font-weight: 600;
   line-height: 1.2; /* Using a fixed line-height value */
@@ -110,4 +110,17 @@
   align-items: flex-start;
   gap: 2.09px;
   display: inline-flex;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader-middle {
+  display: block;
+  margin: 0 auto; /* This centers the image horizontally */
+  text-align: center;
 }
